@@ -1,96 +1,120 @@
-export class Bookmark {
-    /**
-     * @param {string} url 
-     * @param {string} title 
-     * @param {string} thumbnail 
-     * @param {string} description 
-     * @param {Array.<BookmarkTimeline>} timelines 
-     */
-    constructor(url, title, thumbnail, description, timelines) {
-        /**
-         * @private
-         */
-        this._url = url;
-        /**
-         * @private
-         */
-        this._title = title;
-        /**
-         * @private
-         */
-        this._thumbnail = thumbnail;
-        /**
-         * @private
-         */
-        this._description = description;
-        /**
-         * @private
-         */
-        this._timelines = timelines;
-    }
+/**
+ * @typedef YouTubeBookmarkTimeline
+ * @type {object}
+ * @property {string} timeline
+ */
 
-    /**
-     * @returns {string}
-     */
-    get url() { return this._url; }
+/**
+ * @typedef YouTubeBookmark
+ * @type {object}
+ * @property {string} id
+ * @property {string} url
+ * @property {string} title
+ * @property {string} description
+ * @property {Array.<YouTubeBookmarkTimeline>} timelines
+ */
 
-    /**
-     * @returns {string}
-     */
-    get title() { return this._title; }
 
-    /**
-     * @returns {string}
-     */
-    get thumbnail() { return this._thumbnail; }
+/** @constant {string} */
+const YouTubeLongUrlHost = "www.youtube.com";
 
-    /**
-     * @returns {string}
-     */
-    get description() { return this._description; }
+/** @constant {string} */
+const YouTubeShortUrlHost = "youtu.be";
 
-    /**
-     * @returns {Array.<BookmarkTimeline>}
-     */
-    get startTimes() { return this._timelines; }
-
-    /**
-     * @param {*} bookmark 
-     * @returns {boolean}
-     */
-    compare(bookmark) {
-        if (!(bookmark instanceof Bookmark)) {
-            return false;
-        }
-        return this._url === bookmark._url &&
-            this._title === bookmark._title &&
-            this._thumbnail === bookmark._thumbnail &&
-            this._description === bookmark._description &&
-            this._timelines.every((s, i) => s.compare(bookmark._timelines[i]));
-    }
+/**
+ * @param {string} url
+ * @param {string} title
+ * @param {string} description
+ * @returns {YouTubeBookmark}
+ */
+export function createYouTubeBookmark(url, title, description) {
+    const urlInstance = new URL(url);
+    const id = extractYouTubeId(urlInstance);
+    const timeline = extractTimeline(urlInstance);
+    const pureUrl = extractPureYouTubeUrl(urlInstance, id);
+    return {
+        id,
+        url: pureUrl,
+        title,
+        description,
+        timelines: timeline ? [timeline] : []
+    };
 }
 
-export class BookmarkTimeline {
-    /**
-     * @param {string} timeline 
-     */
-    constructor(timeline) {
-        /**
-         * @private
-         */
-        this._timeline = timeline;
-    }
+/**
+ * @param {YouTubeBookmark} b1
+ * @param {YouTubeBookmark} b2
+ * @returns {boolean}
+ */
+export function compareYouTubeBookmark(b1, b2) {
+    return b1.id === b2.id;
+}
 
-    /**
-     * @returns {string}
-     */
-    get timeline() { return this._timeline; }
-
-    /**
-     * @param {*} timeline 
-     * @returns {boolean}
-     */
-    compare(timeline) {
-        return timeline instanceof BookmarkTimeline && this._timeline === timeline._timeline;
+/**
+ * @param {URL} url 
+ * @returns {string}
+ */
+export function extractYouTubeId(url) {
+    const host = url.host;
+    if (host === YouTubeLongUrlHost) { // www.youtube.com
+        const searchParams = url.searchParams;
+        const id = searchParams.get("v") ?? "";
+        if (id === "") {
+            throw new TypeError("Cannot extract YouTube Video ID: " + url.toString());
+        }
+        return id;
     }
+    if (host === YouTubeShortUrlHost) { // youtu.be
+        const id = url.pathname.substring(1);
+        if (id === "") {
+            throw new TypeError("Cannot extract YoUTube Video ID: " + url.toString());
+        }
+        return id;
+    }
+    throw new TypeError("Cannot extract YoUTube Video ID: " + url.toString());
+}
+
+/**
+ * @param {URL} url 
+ * @returns {?YouTubeBookmarkTimeline}
+ */
+function extractTimeline(url) {
+    const host = url.href;
+    if (host !== YouTubeLongUrlHost && host !== YouTubeShortUrlHost) {
+        throw new TypeError("Cannot extract YouTube timeline: " + url.toString());
+    }
+    const searchParams = url.searchParams;
+    const timeline = searchParams.get("t");
+    if (!timeline) {
+        return null;
+    }
+    if (timeline.endsWith("s")) { // format regulation
+        return {
+            timeline: timeline.substring(0, timeline.length - 1)
+        };
+    }
+    return { timeline };
+}
+
+/**
+ * @overload
+ * @param {URL} url 
+ * @returns {string}
+ */
+/**
+ * @overload
+ * @param {URL} url 
+ * @param {string} id 
+ * @returns {string}
+ */
+/**
+ * @param {URL} url 
+ * @param {string=} id 
+ * @returns {string}
+ */
+export function extractPureYouTubeUrl(url, id) {
+    if (!id) {
+        id = extractYouTubeId(url);
+    }
+    return `https://${YouTubeShortUrlHost}/${id}`;
 }
