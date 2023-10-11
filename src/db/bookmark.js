@@ -14,10 +14,11 @@
  * @property {Array.<YouTubeBookmarkTimeline>} timelines
  */
 
-/** @type {string} */
+
+/** @constant {string} */
 const YouTubeLongUrlHost = "www.youtube.com";
 
-/** @type {string} */
+/** @constant {string} */
 const YouTubeShortUrlHost = "youtu.be";
 
 /**
@@ -53,7 +54,7 @@ export function compareYouTubeBookmark(b1, b2) {
  * @param {URL} url 
  * @returns {string}
  */
-function extractYouTubeId(url) {
+export function extractYouTubeId(url) {
     const host = url.host;
     if (host === YouTubeLongUrlHost) { // www.youtube.com
         const searchParams = url.searchParams;
@@ -111,7 +112,7 @@ function extractTimeline(url) {
  * @param {string=} id 
  * @returns {string}
  */
-function extractPureYouTubeUrl(url, id) {
+export function extractPureYouTubeUrl(url, id) {
     if (!id) {
         id = extractYouTubeId(url);
     }
