@@ -31,7 +31,7 @@ const _success = [null, true];
  * // ...
  */
 export function success() {
-    return _success;
+  return _success;
 }
 
 /**
@@ -47,5 +47,5 @@ export function success() {
  * // ...
  */
 export function fail(reason) {
-    return [reason, false];
+  return [reason, false];
 }
