@@ -36,7 +36,7 @@ const str = "Hello, World!"; // 문자열 타입과 str 이름으로 추론할 �
 const content = "Hello, World!"; // 권장
 
 for (let i = 0; i < 100; i++) { // 임시 변수는 허용
-	console.log(content[i]);
+  console.log(content[i]);
 }
 ```
 
@@ -151,6 +151,6 @@ const onFulfilled = res => console.log(res); // 익명 함수
 
 // Case 2
 function onFulfilled(res) {  // 권장
-	console.log(res);
+  console.log(res);
 }
 ```
