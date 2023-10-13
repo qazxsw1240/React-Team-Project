@@ -117,8 +117,8 @@ for (let i = 0; i < 100; i++) {
 문자열은 템플릿 문자열(``` `` ```)을 제외하면 모두 쌍따옴표(`""`)를 씁니다.
 
 ```js
-import * as Foo from './foo' // 쌍따옴표가 아님
-import * as Bar from "./bar" // 권장
+import * as Foo from './foo'; // 쌍따옴표가 아님
+import * as Bar from "./bar"; // 권장
 
 const str = "Hello, World!"; // 권장
 const combined = `${str.toUpperCase()}: ${str}`; // 템플릿 문자열은 제외
@@ -136,11 +136,11 @@ fetch("https://www.google.com/")
 
 // Case 2
 fetch("https://www.google.com/")
-  .then(res => console.log(res)) // 권장
+  .then(res => console.log(res)); // 권장
 
 // Case 3
 fetch("https://www.google.com/")
-  .then(console.log) // 허용하지만, this 바인딩을 확인할 것
+  .then(console.log); // 허용하지만, this 바인딩을 확인할 것
 ```
 
 일반 함수는 함수 선언문(`function` 키워드)으로 정의합니다.
