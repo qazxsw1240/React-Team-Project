@@ -114,6 +114,17 @@ for (let i = 0; i < 100; i++) {
 }
 ```
 
+문자열은 템플릿 문자열(``` `` ```)을 제외하면 모두 쌍따옴표(`""`)를 씁니다.
+
+```js
+import * as Foo from './foo' // 쌍따옴표가 아님
+import * as Bar from "./bar" // 권장
+
+const str = "Hello, World!"; // 권장
+const combined = `${str.toUpperCase()}: ${str}`; // 템플릿 문자열은 제외
+const str2 = "\"Double Quotation Mark\""; // 쌍따옴표를 입력해야 하면 이스케이프 문자를 활용
+```
+
 콜백 함수는 일회성인 경우 최대한 익명 함수를 활용합니다. 기존에 정의된 함수를 인자로 넘기는 것은 허용합니다.
 
 ```js
