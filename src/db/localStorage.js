@@ -1,7 +1,9 @@
 import * as Handler from "../util/error";
 import * as Bookmark from "./bookmark";
 
-/** @enum {string} */
+/** 
+ * @enum {string} 로컬 스토리지에 접근할 때 활용할 키 목록입니다.
+ */
 const KeyList = { Data: "youTubeBookmarkData" };
 
 export const BookmarkStorage = {
@@ -16,6 +18,15 @@ export const BookmarkStorage = {
    * @type {boolean}
    */
   _init: false,
+
+  /**
+   * 북마크 데이터가 초기화돼 있는지 확인합니다.
+   * 
+   * @returns {boolean} 데이터가 초기화돼 있으면 true, 그렇지 않으면 false.
+   */
+  isInitialized() {
+    return this._init;
+  },
 
   /**
    * 북마크 데이터를 로컬 스토리지에서 읽어와 초기화합니다.
@@ -44,7 +55,7 @@ export const BookmarkStorage = {
    * 북마크 데이터를 추가합니다. 중복된 ID의 데이터가 존재하면 추가하지 않습니다.
    * 
    * @param {Bookmark.YouTubeBookmark} bookmark 추가할 북마크 데이터.
-   * @returns {Handler.ErrorHandler} 오류 핸들러.
+   * @returns {Handler.ErrorHandler} 성공 여부를 알려주는 오류 핸들러.
    */
   addBookmark(bookmark) {
     if (this._data.has(bookmark.id)) {
@@ -61,7 +72,7 @@ export const BookmarkStorage = {
    * 새로 추가합니다.
    * 
    * @param {Bookmark.YouTubeBookmark} bookmark 새 북마크 데이터.
-   * @returns {Handler.ErrorHandler}
+   * @returns {Handler.ErrorHandler} 성공 여부를 알려주는 오류 핸들러.
    */
   /**
    * @overload
@@ -69,8 +80,8 @@ export const BookmarkStorage = {
    * 새로 추가합니다.
    * 
    * @param {string} url 갱신할 북마크의 URL.
-   * @param {(bookmark: YouTubeBookmark) => void} updater
-   * @returns {Handler.ErrorHandler}
+   * @param {(bookmark: YouTubeBookmark) => void} updater 데이터를 갱신할 콜백 함수.
+   * @returns {Handler.ErrorHandler} 성공 여부를 알려주는 오류 핸들러.
    */
   /**
    * @param {string|Bookmark.YouTubeBookmark} bookmarkOrUrl
@@ -113,8 +124,8 @@ export const BookmarkStorage = {
   /**
    * 해당 북마크를 제거합니다.
    * 
-   * @param {Bookmark.YouTubeBookmark} bookmark 
-   * @returns {Handler.ErrorHandler}
+   * @param {Bookmark.YouTubeBookmark} bookmark 제거할 북마크
+   * @returns {Handler.ErrorHandler} 성공 여부를 알려주는 오류 핸들러.
    */
   removeBookmark(bookmark) {
     if (!this._data.has(bookmark.id)) {
@@ -128,7 +139,7 @@ export const BookmarkStorage = {
   /**
    * 모든 북마크를 반환합니다.
    * 
-   * @returns {Array.<Bookmark.YouTubeBookmark>}
+   * @returns {Array.<Bookmark.YouTubeBookmark>} 북마크 데이터.
    */
   getAllBookmarks() {
     return [...this._data.values()];
@@ -159,8 +170,8 @@ export const BookmarkStorage = {
   /**
    * 해당 비디오 ID가 있는 북마크를 반환합니다. 일치하는 북마크가 없으면 null을 반환합니다.
    * 
-   * @param {string} id 
-   * @returns {?Bookmark.YouTubeBookmark}
+   * @param {string} id 북마크를 찾을 유튜브 동영상 ID.
+   * @returns {?Bookmark.YouTubeBookmark} 북마크 데이터를 반환하고, 찾지 못하면 null을 반환함.
    */
   getBookmarkById(id) {
     return this._data.get(id) ?? null;
@@ -169,7 +180,8 @@ export const BookmarkStorage = {
   /**
    * 해당 비디오 URL의 ID와 일치하는 북마크를 반환합니다. 일치하는 북마크가 없으면 null을 반환합니다.
    * 
-   * @param {string} url 
+   * @param {string} url 북마크를 찾을 URL 문자열.
+   * @returns {?Bookmark.YouTubeBookmark} 북마크 데이터를 반환하고, 찾지 못하면 null을 반환함.
    */
   getBookmarkByUrl(url) {
     const id = Bookmark.extractYouTubeId(new URL(url));
@@ -178,7 +190,9 @@ export const BookmarkStorage = {
 };
 
 /**
- * @param {BookmarkStorage} data 
+ * 로컬 스토리지에 현재 북마크 데이터 정보를 저장합니다.
+ * 
+ * @param {BookmarkStorage} data 로컬 스토리지에 저장될 데이터 객체
  */
 function updateLocalStorageData(data) {
   localStorage.setItem(KeyList.Data, JSON.stringify([...data._data.values()]));
