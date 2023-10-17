@@ -103,7 +103,7 @@ export function extractYouTubeId(url) {
  * @returns {?YouTubeBookmarkTimeline} 타임라인이 URL에 있으면 객체를 반환하고, 그렇지 않으면 null 반환함.
  */
 function extractTimeline(url) {
-  const host = url.href;
+  const host = url.host;
   if (host !== YouTubeLongUrlHost && host !== YouTubeShortUrlHost) {
     throw new TypeError("Cannot extract YouTube timeline: " + url.toString());
   }

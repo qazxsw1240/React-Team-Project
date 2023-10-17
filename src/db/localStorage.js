@@ -80,7 +80,7 @@ export const BookmarkStorage = {
    * 새로 추가합니다.
    * 
    * @param {string} url 갱신할 북마크의 URL.
-   * @param {(bookmark: YouTubeBookmark) => void} updater 데이터를 갱신할 콜백 함수.
+   * @param {(bookmark: Bookmark.YouTubeBookmark) => void} updater 데이터를 갱신할 콜백 함수.
    * @returns {Handler.ErrorHandler} 성공 여부를 알려주는 오류 핸들러.
    */
   /**
@@ -98,7 +98,7 @@ export const BookmarkStorage = {
       }
       if (!data) {
         const pureUrl = Bookmark.extractPureYouTubeUrl(url);
-        const newData = Bookmark.createYouTubeBookmark(id, pureUrl, "");
+        const newData = Bookmark.createYouTubeBookmark(pureUrl, pureUrl, "");
         updater(newData);
         return this.addBookmark(newData);
       }
