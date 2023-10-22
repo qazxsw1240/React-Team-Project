@@ -1,0 +1,48 @@
+@import url(./index.css);
+
+:root {
+  --bookmark-image-width: 216px;
+  --bookmark-info-min-width: 720px;
+  --bookmark-info-min-height: 480px;
+  --bookmark-info-width: 960px;
+  --bookmark-info-height: 640px;
+}
+
+.bookmark-info-header {
+  width: inherit;
+  display: flex;
+  justify-content: center;
+}
+
+.bookmark-info-body {
+  width: 100%;
+  margin-top: var(--component-margin);
+  overflow: auto;
+}
+
+.bookmark-info-header-side {
+  width: var(--bookmark-image-width);
+}
+
+.bookmark-info-header-center {
+  min-width: calc(var(--bookmark-info-min-width) - calc(var(--bookmark-image-width)*2));
+  max-width: calc(var(--bookmark-info-width) - calc(var(--bookmark-image-width)*2));
+  width: calc(100% - calc(var(--bookmark-image-width)*2));
+}
+
+.bookmark-title {
+  height: var(--button-side-length);
+  display: flex;
+  align-items: center;
+}
+
+.bookmark-title-text {
+  width: inherit;
+  font-size: var(--title-text-size);
+  font-family: inherit;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
