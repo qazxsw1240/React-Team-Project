@@ -1,9 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap');
 
+:root {
+  --default-text-size: 14px;
+  --title-text-size: 20px;
+  --text-window-border-radius: 12px;
+  --button-border-radius: 18px;
+  --component-margin: 12px;
+  --button-side-length: 36px;
+}
+
 html {
   font-family: 'Roboto', 'Noto Sans KR', sans-serif;
-  font-size: 14px;
+  font-size: var(--default-text-size);
   color: rgb(15, 15, 15);
 }
 
@@ -14,17 +23,17 @@ html {
 }
 
 .text-title {
-  font-size: 20px;
+  font-size: var(--title-text-size);
   font-weight: bold;
 }
 
 .text-window {
-  border-radius: 12px;
+  border-radius: var(--text-window-border-radius);
   background-color: rgba(0, 0, 0, 0.05);
 }
 
 .text-window-inner {
-  margin: 12px;
+  margin: var(--component-margin);
 }
 
 .modifiable:hover {
@@ -32,8 +41,8 @@ html {
 }
 
 .button {
-  height: 36px;
-  min-width: 36px;
-  border-radius: 18px;
+  height: var(--button-side-length);
+  min-width: var(--button-side-length);
+  border-radius: var(--button-border-radius);
   border-style: none;
 }
