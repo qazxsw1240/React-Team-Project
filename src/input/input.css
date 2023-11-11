@@ -1,0 +1,26 @@
+.input-title {
+    height: var(--button-side-length);
+    display: flex;
+    align-items: center;
+}
+  
+.input-title-text {
+    width: inherit;
+    font-size: var(--title-text-size);
+    font-family: inherit;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+  
+.input-text {
+    width: inherit;
+    font-size: var(--default-text-size);
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
