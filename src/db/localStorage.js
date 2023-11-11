@@ -65,7 +65,6 @@ export const BookmarkStorage = {
      * "description":"","timelines":[]}]"
      */
     const data = localStorage.getItem(KeyList.Data);
-    // console.log(data)
 
     if (!data) {
       localStorage.setItem(KeyList.Data, "[]");

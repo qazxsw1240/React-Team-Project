@@ -114,7 +114,7 @@ function BookmarkInfoBody(props) {
             title={bookmark.title}
             src={`https://www.youtube.com/embed/${bookmark.id}`}
             style={{ flexShrink: 0, flexGrow: 0 }}/>
-          <Description style={{ marginTop: 12, flexShrink: 0, flexGrow: 1, height: "150px" }}/>
+          <Description bookmark={props.bookmark} style={{ marginTop: 12, flexShrink: 0, flexGrow: 1, height: "150px" }}/>
         </div>
       </div>
 

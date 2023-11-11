@@ -25,7 +25,7 @@ function ModifiableInput(props) {
             <input
               className={props.type}
               style={{ height: 30, paddingLeft: "10px", flexWrap: "wrap"}}
-              type='text'
+              type="text"
               defaultValue={text}
               onKeyDown={(event) => { if (event.key === "Enter") { changeText(event) }}}
               onBlur={(event) => { changeText(event) }}
@@ -39,7 +39,7 @@ function ModifiableInput(props) {
   return (
     <div className="window modifiable"
         onDoubleClick={() => setModifiable(() => true)} 
-        title='더블클릭해서 편집'>
+        title="더블클릭해서 편집">
         <div className={props.type} style={props.style}>
           {text}
         </div>

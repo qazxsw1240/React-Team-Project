@@ -12,7 +12,7 @@ function ModifiableTextArea(props) {
     setModifiable(() => false);
 
     props.bookmark[props.str_key] = event.target.value;
-    console.log(props.bookmark);
+    console.log(props.bookmark)
   }
 
   const handleTextareaChange = (event) => {
@@ -40,23 +40,11 @@ function ModifiableTextArea(props) {
       
     );
   }
-  // return (
-  //   <div className={props.className}>
-  //     <div
-  //       className="window modifiable input-title" 
-  //       style={props.style}
-  //       onDoubleClick={() => setModifiable(() => true)}
-  //       title='더블클릭해서 편집'>
-  //       <div className="window-inner input-text" style={{ height: 36 }}>
-  //         {text}
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+  
   return (
     <div className="window modifiable"
         onDoubleClick={() => setModifiable(() => true)} 
-        title='더블클릭해서 편집'>
+        title="더블클릭해서 편집">
         <div className="input-text" style={{...props.style, paddingLeft: "12px"}}>
           {text}
         </div>
