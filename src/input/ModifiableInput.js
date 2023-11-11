@@ -11,8 +11,6 @@ function ModifiableInput(props) {
     setModifiable(() => false);
 
     props.bookmark[props.str_key] = event.target.value;
-
-
     console.log(props.bookmark)
 
     
