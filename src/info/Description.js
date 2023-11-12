@@ -10,7 +10,7 @@ function Description(props) {
           <ModifiableTextArea 
           str_key="description"
           bookmark={props.bookmark} 
-          text="description" 
+          text={props.bookmark.description} 
           style={{height: "90px", marginTop: "12px"}}
           attributes={{rows: 5, cols: 66, maxLength: 300, height: "85px", marginTop: "12px"}}/>
       </div>

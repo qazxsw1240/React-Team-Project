@@ -82,6 +82,7 @@ function BookmarkInfoHeader(props) {
       <div className="info-header-center">
         <ModifiableInput
           bookmark={props.bookmark}
+          str_key="title"
           type="input-title-text"
           style={{ height: 36, paddingLeft: "12px" }}
           text={props.bookmark.title}/>

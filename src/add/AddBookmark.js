@@ -22,6 +22,7 @@ import CancelButton from "button/CancelButton";
 import CompleteButton from "button/CompleteButton";
 
 import { BookmarkStorage } from "db/localStorage";
+import { executeSwal } from "alert/executeSwal";
 
 /**
  * @type {React.Context.<[boolean, React.Dispatch.<React.SetStateAction.<boolean>>]>}
@@ -108,6 +109,7 @@ function AddBookmarkBody(props) {
           <td width="72%">
             <ModifiableInput
             bookmark={props.bookmark}
+            status="new"
             str_key="title" 
             text="제목 입력"
             type="input-text"
@@ -119,6 +121,7 @@ function AddBookmarkBody(props) {
           <td width="70%">
             <ModifiableInput
             bookmark={props.bookmark}
+            status="new"
             str_key="url" 
             text="링크 입력"
             type="input-text"
@@ -129,6 +132,7 @@ function AddBookmarkBody(props) {
           <th><font size="5">설명</font></th>
           <td><ModifiableTextArea 
                bookmark={props.bookmark}
+               status="new"
                str_key="description"
                text="description" style={{height: "90px"}}
                attributes={{cols: 52, maxLength: 250, height: "80px", marginTop: "5px"}}/></td>
@@ -152,8 +156,29 @@ function AddBookmarkFooter(props) {
 
       <div className="add-footer-center">
         <CompleteButton onClick={() => {
-          BookmarkStorage.updateBookmark(props.bookmark, () => {})
-          setVisible(false)
+          if (Bookmark.validationLink(props.bookmark.url) === false) {
+            executeSwal("잘못된 url입니다!", "warning");
+            return;
+          }
+          
+          props.bookmark.id = Bookmark.getYoutubeLinkId(props.bookmark.url);
+          if (BookmarkStorage.getBookmarkById(props.bookmark.id) !== null) {
+            executeSwal("이미 링크가 저장되어 있습니다!", "warning");
+            return;
+          }
+
+          (async () => {
+            try {
+                await BookmarkStorage.updateBookmark(props.bookmark, ()=>{});
+            }
+            catch(err){
+                console.error(err.message);
+            }
+            finally{
+              setVisible(false);
+            }
+          })();
+          
           }} /> 
         <CancelButton onClick={() => setVisible(false)} />
       </div>

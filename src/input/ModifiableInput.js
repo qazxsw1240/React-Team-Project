@@ -24,7 +24,8 @@ function ModifiableInput(props) {
               className={props.type}
               style={{ height: 30, paddingLeft: "10px", flexWrap: "wrap"}}
               type="text"
-              defaultValue={text}
+              defaultValue={props.status !== "new" ? text : ""}
+              placeholder={props.str_key === "title" ? "제목 입력" : "ex) https://www.youtube.com/watch?v=8PG55X45cUs"}
               onKeyDown={(event) => { if (event.key === "Enter") { changeText(event) }}}
               onBlur={(event) => { changeText(event) }}
               autoFocus={true}
@@ -36,8 +37,8 @@ function ModifiableInput(props) {
   }
   return (
     <div className="window modifiable"
-        onDoubleClick={() => setModifiable(() => true)} 
-        title="더블클릭해서 편집">
+        onClick={() => setModifiable(() => true)} 
+        title="클릭해서 편집">
         <div className={props.type} style={props.style}>
           {text}
         </div>
