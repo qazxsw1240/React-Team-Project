@@ -1,6 +1,18 @@
 import * as Handler from "../util/error";
 import * as Bookmark from "./bookmark";
 
+/**
+ * bookmark 객체
+ * 
+ * {"id":"5bId3N7QZec",
+ * "url":"https://youtu.be/5bId3N7QZec",
+ * "title":"https://youtu.be/5bId3N7QZec",
+ * "description":"",
+ * "timelines":[]}
+ * 
+ */
+
+
 /** 
  * @enum {string} 로컬 스토리지에 접근할 때 활용할 키 목록입니다.
  */
@@ -10,6 +22,13 @@ export const BookmarkStorage = {
   /** 
    * 북마크 데이터가 들어있습니다. 직접 변경하지 마세요.
    * @type {Map.<string, Bookmark.YouTubeBookmark>} 
+   */
+
+  /**
+   * _data
+   * 
+   * key는 "5bId3N7QZec"
+   * value는 bookmark 객체
    */
   _data: new Map(),
 
@@ -36,15 +55,35 @@ export const BookmarkStorage = {
     if (this._init) {
       return;
     }
+
+    /**
+     * data : 북마크 객체 배열를 표현한 문자열
+     * 
+     * "[{"id":"5bId3N7QZec",
+     * "url":"https://youtu.be/5bId3N7QZec",
+     * "title":"https://youtu.be/5bId3N7QZec",
+     * "description":"","timelines":[]}]"
+     */
     const data = localStorage.getItem(KeyList.Data);
+
     if (!data) {
       localStorage.setItem(KeyList.Data, "[]");
       return;
     }
+
+    /**
+     * 문자열을 객체로 변환
+     * json : bookmark 객체를 저장한 배열
+     */
     const json = JSON.parse(data);
+
     if (!Array.isArray(json)) {
       throw new Error("Data corrupted!");
     }
+
+    /**
+     * data : bookmark 객체 
+     */
     for (const data of json) {
       this._data.set(data.id, data);
     }
@@ -140,6 +179,8 @@ export const BookmarkStorage = {
    * 모든 북마크를 반환합니다.
    * 
    * @returns {Array.<Bookmark.YouTubeBookmark>} 북마크 데이터.
+   * 
+   * bookmark 객체를 저장한 배열 반환
    */
   getAllBookmarks() {
     return [...this._data.values()];

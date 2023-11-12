@@ -1,0 +1,45 @@
+:root {
+  --info-min-width: 720px;
+  --info-min-height: 480px;
+  --info-width: 960px;
+  --info-height: 650px;
+}
+
+.info-header {
+  width: inherit;
+  display: flex;
+  justify-content: center;
+}
+
+.info-header-side {
+  width: var(--bookmark-image-width);
+}
+
+.info-header-center {
+  min-width: calc(var(--info-min-width) - calc(var(--bookmark-image-width)*2));
+  max-width: calc(var(--info-width) - calc(var(--bookmark-image-width)*2));
+  width: calc(100% - calc(var(--bookmark-image-width)*2));
+}
+
+.info-body {
+  width: 100%;
+  margin-top: var(--component-margin);
+  overflow: auto;
+  margin-bottom: var(--component-margin);
+}
+
+.info-footer {
+  width: inherit;
+  display: flex;
+  justify-content: center;
+}
+
+.info-footer-center {
+  min-width: calc(var(--info-min-width) - calc(var(--bookmark-image-width)*2));
+  max-width: calc(var(--info-width) - calc(var(--bookmark-image-width)*2));
+  width: calc(100% - calc(var(--bookmark-image-width)*2));
+}
+
+.info-footer-side {
+  width: var(--bookmark-image-width);
+}

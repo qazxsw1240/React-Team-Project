@@ -149,3 +149,66 @@ export function extractPureYouTubeUrl(url, id) {
   }
   return `https://${YouTubeShortUrlHost}/${id}`;
 }
+
+
+// 함수 추가
+export function isYoutubeLink(str) {
+  const youtubeLinkPrefix = "https://www.youtube.com/watch?v=";
+  return str.startsWith(youtubeLinkPrefix);
+}
+
+export function getYoutubeLinkId(str) {
+  const youtubeLinkPrefix = "https://www.youtube.com/watch?v=";
+  const startIndex = str.indexOf(youtubeLinkPrefix);
+  
+  if (startIndex !== -1) {
+    return str.substring(startIndex + youtubeLinkPrefix.length);
+  } else {
+    // 유효한 유튜브 링크가 아닌 경우 빈 문자열 
+    return "";
+  }
+}
+
+function loadImage(link, youtubeId) {
+  return new Promise((resolve, reject) => {
+    const youtubeImg = new Image();
+
+    youtubeImg.onload = function() {
+      resolve();
+    };
+
+    // 이미지 로드 실패 시
+    youtubeImg.onerror = function() {
+      reject(new Error('이미지 로드 실패'));
+    };
+
+    youtubeImg.src = link;
+    youtubeImg.id = youtubeId;
+    youtubeImg.style.display = "none";
+
+    document.getElementById("root").appendChild(youtubeImg);
+  })
+}
+
+export function validationLink(str) {
+  if (isYoutubeLink(str) === false) {
+    return false;
+  }
+
+  const youtubeId = getYoutubeLinkId(str);
+  const link = `https://img.youtube.com/vi/${youtubeId}/0.jpg`;
+
+  (async () => {
+    try {
+        await loadImage(link, youtubeId);
+    }
+    catch(err){
+        console.error(err.message);
+    }
+    finally{
+      const renderedImg = document.getElementById(youtubeId);
+      return renderedImg.width > 120 && renderedImg.height > 90;
+    }
+  })();
+  
+}

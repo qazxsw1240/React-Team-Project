@@ -5,14 +5,14 @@ import { VscChromeClose } from "react-icons/vsc";
  * @param {React.HTMLAttributes} props
  * @returns {React.JSX.Element}
  */
-function CrossButton(props) {
+function CancelButton(props) {
   return (
     <div
-      className="CrossButton"
+      className="CancelButton"
       onClick={props.onClick}>
-      <VscChromeClose style={{ margin: "0 auto" }} />
+      취소
     </div>
   );
 }
 
-export default CrossButton;
+export default CancelButton;
