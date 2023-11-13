@@ -1,11 +1,3 @@
-/**
- * bookmark는 {"id":"5bId3N7QZec",
- * "url":"https://youtu.be/5bId3N7QZec",
- * "title":"https://youtu.be/5bId3N7QZec",
- * "description":"",
- * "timelines":[]}
- */
-
 import React, { useContext, useEffect, useState } from "react";
 
 import Modal from "modal/Modal";
@@ -14,7 +6,7 @@ import * as Bookmark from "db/bookmark";
 
 import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
 
-// 추가 코드
+
 import Img from "img/Img";
 import Iframe from "info/Iframe";
 import ModifiableInput from "input/ModifiableInput";
@@ -26,10 +18,9 @@ import CompleteButton from "button/CompleteButton";
 /**
  * @type {React.Context.<[boolean, React.Dispatch.<React.SetStateAction.<boolean>>]>}
  */
-// 전역으로 상태 설정
 export const BookmarkInfoModalVisibleContext = React.createContext(null);
 
-// 전역으로 상태 설정
+
 const BookmarkInfoUpdateContext = React.createContext(null);
 
 /**
@@ -40,13 +31,6 @@ const BookmarkInfoUpdateContext = React.createContext(null);
 /**
  * @param {BookmarkInfoProp} props
  * @returns {React.JSX.Element}
- */
-
-/**
- * props = {bookmark : bookmarks[0]} 객체
- *
- * <BookmarkInfoHeader {...props} />, <BookmarkInfoBody {...props} />에
- * {bookmark : bookmarks[0]} 데이터 전달
  */
 function BookmarkInfo(props) {
   const [visible] = useContext(BookmarkInfoModalVisibleContext);
@@ -132,8 +116,8 @@ function BookmarkInfoFooter(props) {
   const [, setVisible] = useContext(BookmarkInfoModalVisibleContext);
   return (
     <div className="info-footer">
-
       <div className="info-footer-side">
+        
       </div>
 
       <div className="info-footer-center">
@@ -146,8 +130,6 @@ function BookmarkInfoFooter(props) {
 
     </div>
   );
-
-
 }
 
 export default BookmarkInfo;

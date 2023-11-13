@@ -1,5 +1,4 @@
 import React from "react";
-import { VscChromeClose } from "react-icons/vsc";
 
 /**
  * @param {React.HTMLAttributes} props
@@ -8,7 +7,7 @@ import { VscChromeClose } from "react-icons/vsc";
 function CancelButton(props) {
   return (
     <div
-      className="CancelButton"
+      className="cancel-button"
       onClick={props.onClick}>
       취소
     </div>

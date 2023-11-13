@@ -151,34 +151,46 @@ export function extractPureYouTubeUrl(url, id) {
 }
 
 
-// 함수 추가
-export function isYoutubeLink(str) {
+/**
+ * @param {string} str 북마크 추가 시 입력하는 url 문자열
+ * @returns {boolean} 입력된 url 문자열의 접두사가 https://www.youtube.com/watch?v=인지 여부
+ */
+function isYoutubeLink(str) {
   const youtubeLinkPrefix = "https://www.youtube.com/watch?v=";
   return str.startsWith(youtubeLinkPrefix);
 }
 
+/**
+ * 
+ * @param {string} str 북마크 추가 시 입력하는 url 문자열
+ * @returns 
+ */
 export function getYoutubeLinkId(str) {
   const youtubeLinkPrefix = "https://www.youtube.com/watch?v=";
   const startIndex = str.indexOf(youtubeLinkPrefix);
-  
+
   if (startIndex !== -1) {
     return str.substring(startIndex + youtubeLinkPrefix.length);
   } else {
-    // 유효한 유튜브 링크가 아닌 경우 빈 문자열 
     return "";
   }
 }
 
+/**
+ * 
+ * @param {*} link 
+ * @param {*} youtubeId 
+ * @returns 
+ */
 function loadImage(link, youtubeId) {
   return new Promise((resolve, reject) => {
     const youtubeImg = new Image();
 
-    youtubeImg.onload = function() {
+    youtubeImg.onload = function () {
       resolve();
     };
 
-    // 이미지 로드 실패 시
-    youtubeImg.onerror = function() {
+    youtubeImg.onerror = function () {
       reject(new Error('이미지 로드 실패'));
     };
 
@@ -190,6 +202,11 @@ function loadImage(link, youtubeId) {
   })
 }
 
+/**
+ * 
+ * @param {*} str 
+ * @returns 
+ */
 export function validationLink(str) {
   if (isYoutubeLink(str) === false) {
     return false;
@@ -200,15 +217,15 @@ export function validationLink(str) {
 
   (async () => {
     try {
-        await loadImage(link, youtubeId);
+      await loadImage(link, youtubeId);
     }
-    catch(err){
-        console.error(err.message);
+    catch (err) {
+      console.error(err.message);
     }
-    finally{
+    finally {
       const renderedImg = document.getElementById(youtubeId);
       return renderedImg.width > 120 && renderedImg.height > 90;
     }
   })();
-  
+
 }

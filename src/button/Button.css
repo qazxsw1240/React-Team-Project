@@ -4,7 +4,7 @@
 }
 
 
-.CrossButton {
+.cross-button {
   height: var(--button-side-length);
   min-width: var(--button-side-length);
   border-radius: var(--button-border-radius);
@@ -21,7 +21,7 @@
   align-items: center;
 }
 
-.CancelButton {
+.cancel-button {
   height: var(--button-side-length);
   min-width: var(--button-side-length);
   border-radius: 10px;
@@ -38,7 +38,7 @@
   justify-content: center;
 }
 
-.CompleteButton {
+.complete-button {
   height: var(--button-side-length);
   min-width: var(--button-side-length);
   border-radius: 10px;
