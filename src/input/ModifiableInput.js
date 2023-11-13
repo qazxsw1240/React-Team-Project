@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 /**
  * 
@@ -13,26 +13,39 @@ function ModifiableInput(props) {
   const changeText = (event) => {
     setText(() => event.target.value);
     setModifiable(() => false);
+    props.bookmark[props.category] = event.target.value;
+  }
 
-    props.bookmark[props.str_key] = event.target.value;
+  const checkCategory = (category) => {
+    return category === "title" ?
+      "제목 입력" : "ex) https://www.youtube.com/watch?v=8PG55X45cUs"
+  }
+
+  const checkKeyEnter = (event) => {
+    if (event.key === "Enter") {
+      changeText(event)
+    }
   }
 
   if (modifiable) {
     return (
-
-      <div className="window modifiable" style={{ display: "flex" }}>
+      <div className="window modifiable"
+        style={{ display: "flex" }}>
         <input
           className={props.type}
-          style={{ height: 30, paddingLeft: "10px", flexWrap: "wrap" }}
+          style={{
+            height: 30,
+            paddingLeft: "10px",
+            flexWrap: "wrap"
+          }}
           type="text"
           defaultValue={props.status !== "new" ? text : ""}
-          placeholder={props.str_key === "title" ? "제목 입력" : "ex) https://www.youtube.com/watch?v=8PG55X45cUs"}
-          onKeyDown={(event) => { if (event.key === "Enter") { changeText(event) } }}
+          placeholder={checkCategory(props.category)}
+          onKeyDown={(event) => { checkKeyEnter(event) }}
           onBlur={(event) => { changeText(event) }}
           autoFocus={true}
-          size={47}
+          size={props.size}
         />
-
       </div>
     );
   }
@@ -41,7 +54,8 @@ function ModifiableInput(props) {
     <div className="window modifiable"
       onClick={() => setModifiable(() => true)}
       title="클릭해서 편집">
-      <div className={props.type} style={props.style}>
+      <div className={props.type}
+        style={props.style}>
         {text}
       </div>
     </div>

@@ -152,6 +152,7 @@ export function extractPureYouTubeUrl(url, id) {
 
 
 /**
+ * 
  * @param {string} str 북마크 추가 시 입력하는 url 문자열
  * @returns {boolean} 입력된 url 문자열의 접두사가 https://www.youtube.com/watch?v=인지 여부
  */
@@ -162,8 +163,8 @@ function isYoutubeLink(str) {
 
 /**
  * 
- * @param {string} str 북마크 추가 시 입력하는 url 문자열
- * @returns 
+ * @param {string} str 접두사가 https://www.youtube.com/watch?v=인 url 문자열
+ * @returns {string} 비디오 영상의 id를 반환 | 해시 문자열
  */
 export function getYoutubeLinkId(str) {
   const youtubeLinkPrefix = "https://www.youtube.com/watch?v=";
@@ -178,21 +179,16 @@ export function getYoutubeLinkId(str) {
 
 /**
  * 
- * @param {*} link 
- * @param {*} youtubeId 
- * @returns 
+ * @param {string} link 유튜브 비디오의 썸네일 링크 | https://img.youtube.com/vi/${youtubeId}/0.jpg
+ * @param {string} youtubeId 유튜브 비디오의 아이디 | 해시 문자열 
+ * @returns {Promise} 이미지를 html에 로딩하는 함수를 실행하는 Promise 객체
  */
 function loadImage(link, youtubeId) {
   return new Promise((resolve, reject) => {
     const youtubeImg = new Image();
 
-    youtubeImg.onload = function () {
-      resolve();
-    };
-
-    youtubeImg.onerror = function () {
-      reject(new Error('이미지 로드 실패'));
-    };
+    youtubeImg.onload = () => { resolve() }
+    youtubeImg.onerror = () => { reject(new Error('이미지 로드 실패')) };
 
     youtubeImg.src = link;
     youtubeImg.id = youtubeId;
@@ -203,9 +199,13 @@ function loadImage(link, youtubeId) {
 }
 
 /**
+ * 1. 입력된 문자열이 url 형식인지 확인
+ * 2. url로부터 유튜브 video id 추출
+ * 3. id를 이용하여 image 객체 생성 및 html에 로드 실행
+ * 4. 로드된 이미지의 width, height 측정(정상 : width = 480, height = 360)
  * 
- * @param {*} str 
- * @returns 
+ * @param {string} str 문자열 
+ * @returns {boolean} 입력된 문자열이 유효한 url인지 여부
  */
 export function validationLink(str) {
   if (isYoutubeLink(str) === false) {
@@ -227,5 +227,4 @@ export function validationLink(str) {
       return renderedImg.width > 120 && renderedImg.height > 90;
     }
   })();
-
 }

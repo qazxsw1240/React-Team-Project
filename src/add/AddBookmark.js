@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 import Modal from "modal/Modal";
 import CrossButton from "button/CrossButton";
@@ -20,17 +20,6 @@ import { executeSwal } from "alert/executeSwal";
  */
 export const AddBookmarkModalVisibleContext = React.createContext(null);
 
-/**
- * @typedef {object} BookmarkInfoProp
- * @property {Bookmark.YouTubeBookmark} bookmark
- */
-
-/**
- * @param {BookmarkInfoProp} props
- * @returns {React.JSX.Element}
- */
-
-
 function AddBookmark() {
   const [visible] = useContext(AddBookmarkModalVisibleContext);
   const AddBookmarkObject = {
@@ -42,13 +31,12 @@ function AddBookmark() {
   }
 
   return (
-    <Modal visible={visible} style={
-      {
-        minWidth: "var(--bookmark-info-min-width)",
-        minHeight: "var(--bookmark-info-min-height)",
-        width: "820px",
-        height: "510px"
-      }}>
+    <Modal visible={visible} style={{
+      minWidth: "var(--bookmark-info-min-width)",
+      minHeight: "var(--bookmark-info-min-height)",
+      width: "820px",
+      height: "510px"
+    }}>
       <AddBookmarkHeader />
       <AddBookmarkBody bookmark={AddBookmarkObject} />
       <AddBookmarkFooter bookmark={AddBookmarkObject} />
@@ -64,13 +52,12 @@ function AddBookmarkHeader() {
         <Img src={LongThumbnail} />
       </div>
 
-      <div className="add-header-center">
-      </div>
+      <div className="add-header-center" />
 
       <div className="add-header-side">
         <CrossButton onClick={() => setVisible(false)} />
       </div>
-    </div>
+    </div >
   );
 }
 
@@ -78,51 +65,73 @@ function AddBookmarkHeader() {
 function AddBookmarkBody(props) {
 
   return (
-    <div className="add-body" style={{
-      display: "flex",
-      justifyContent: "center", alignItems: "center",
-      marginTop: "50px"
-    }}>
-      <div style={{ textAlign: "center" }}>
+    <div className="add-body"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "50px"
+      }}>
 
+      <div>
         <table width="600px" height="330px">
-          <thead></thead>
           <tbody>
             <tr height="20%">
-              <th width="28%"><font size="5">제목</font></th>
-              <td width="72%">
+              <th width="27%">
+                <font size="5">제목</font>
+              </th>
+              <td width="73%">
                 <ModifiableInput
+                  style={{
+                    height: 36,
+                    paddingLeft: "12px"
+                  }}
                   bookmark={props.bookmark}
                   status="new"
-                  str_key="title"
+                  category="title"
                   text="제목 입력"
                   type="input-text"
-                  style={{ height: 36, paddingLeft: "12px" }} />
+                  size={51}
+                />
               </td>
             </tr>
             <tr height="20%">
-              <th><font size="5">링크</font></th>
+              <th>
+                <font size="5">링크</font>
+              </th>
               <td width="70%">
                 <ModifiableInput
+                  style={{
+                    height: 36,
+                    paddingLeft: "12px"
+                  }}
                   bookmark={props.bookmark}
                   status="new"
-                  str_key="url"
+                  category="url"
                   text="링크 입력"
                   type="input-text"
-                  style={{ height: 36, paddingLeft: "12px" }} />
+                  size={51}
+                />
               </td>
             </tr>
             <tr>
-              <th><font size="5">설명</font></th>
-              <td><ModifiableTextArea
-                bookmark={props.bookmark}
-                status="new"
-                str_key="description"
-                text="description" style={{ height: "90px" }}
-                attributes={{ cols: 52, maxLength: 250, height: "80px", marginTop: "5px" }} /></td>
+              <th>
+                <font size="5">설명</font>
+              </th>
+              <td>
+                <ModifiableTextArea
+                  style={{ height: "90px" }}
+                  attributes={{
+                    cols: 53,
+                    maxLength: 250,
+                    height: "80px"
+                  }}
+                  bookmark={props.bookmark}
+                  status="new"
+                  text="description"
+                />
+              </td>
             </tr>
           </tbody>
-          <tfoot></tfoot>
         </table>
       </div>
 
@@ -134,8 +143,7 @@ function AddBookmarkFooter(props) {
   const [, setVisible] = useContext(AddBookmarkModalVisibleContext);
   return (
     <div className="add-footer">
-      <div className="add-footer-side">
-      </div>
+      <div className="add-footer-side" />
 
       <div className="add-footer-center">
         <CompleteButton onClick={() => {
@@ -146,7 +154,7 @@ function AddBookmarkFooter(props) {
 
           props.bookmark.id = Bookmark.getYoutubeLinkId(props.bookmark.url);
           if (BookmarkStorage.getBookmarkById(props.bookmark.id) !== null) {
-            executeSwal("이미 링크가 저장되어 있습니다!", "warning");
+            executeSwal("이미 링크가 저장되어 있습니다!", "error");
             return;
           }
 
@@ -166,8 +174,7 @@ function AddBookmarkFooter(props) {
         <CancelButton onClick={() => setVisible(false)} />
       </div>
 
-      <div className="add-footer-side">
-      </div>
+      <div className="add-footer-side" />
     </div>
   );
 }

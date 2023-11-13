@@ -10,7 +10,11 @@ function CrossButton(props) {
     <div
       className="cross-button"
       onClick={props.onClick}>
-      <VscChromeClose style={{ margin: "0 auto" }} />
+      <VscChromeClose
+        style={{
+          margin: "0 auto"
+        }}
+      />
     </div>
   );
 }

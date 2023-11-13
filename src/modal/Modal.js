@@ -14,7 +14,9 @@ function Modal(prop) {
   const { visible = false, children } = prop;
   return (
     <div className="modal-background"
-      style={{ display: visible ? "flex" : "none" }}>
+      style={{
+        display: visible ? "flex" : "none"
+      }}>
       <div className="modal window" style={prop.style}>
         <div className="window-inner">{children}</div>
       </div>

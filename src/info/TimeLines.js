@@ -4,7 +4,8 @@ function TimeLines(props) {
   return (
     <div style={props.style}>
       <div className="window">
-        <div className="window-inner" style={{ marginTop: 0 }}>
+        <div className="window-inner"
+          style={{ marginTop: 0 }}>
           Timelines
         </div>
       </div>
