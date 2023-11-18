@@ -3,8 +3,11 @@ import ReactDOM from "react-dom/client";
 import App from "App";
 import reportWebVitals from "reportWebVitals";
 
-// 추가 코드
-// src 폴더 내의 모든 css 파일을 import
+
+/**
+ * @param {*} r 
+ * @description src 폴더 내의 모든 css 파일을 import
+ */
 function importAll(r) {
   r.keys().forEach(r);
 }

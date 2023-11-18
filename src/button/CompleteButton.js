@@ -1,5 +1,4 @@
 import React from "react";
-import { VscChromeClose } from "react-icons/vsc";
 
 /**
  * @param {React.HTMLAttributes} props
@@ -8,7 +7,7 @@ import { VscChromeClose } from "react-icons/vsc";
 function CompleteButton(props) {
   return (
     <div
-      className="CompleteButton"
+      className="complete-button"
       onClick={props.onClick}>
       완료
     </div>

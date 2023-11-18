@@ -8,9 +8,13 @@ import { VscChromeClose } from "react-icons/vsc";
 function CrossButton(props) {
   return (
     <div
-      className="CrossButton"
+      className="cross-button"
       onClick={props.onClick}>
-      <VscChromeClose style={{ margin: "0 auto" }} />
+      <VscChromeClose
+        style={{
+          margin: "0 auto"
+        }}
+      />
     </div>
   );
 }

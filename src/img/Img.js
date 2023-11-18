@@ -9,8 +9,8 @@ function Img(props) {
         float: "left"
       }
     }
-        src={props.src}
-        alt="thumbnail"/>
+      src={props.src}
+      alt="thumbnail" />
   );
 }
 
