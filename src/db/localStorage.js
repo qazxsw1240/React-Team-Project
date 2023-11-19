@@ -117,6 +117,7 @@ export const BookmarkStorage = {
       if (!data) {
         return this.addBookmark(bookmark);
       }
+      updater(data);
       this._data.set(id, bookmark);
       updateLocalStorageData(this);
       return Handler.success();
