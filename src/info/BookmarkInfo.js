@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import CrossButton from "button/CrossButton";
 import * as Bookmark from "db/bookmark";
@@ -21,8 +21,14 @@ import ModifiableInput from "input/ModifiableInput";
  */
 export const BookmarkInfoModalVisibleContext = React.createContext(null);
 
+/**
+ * @typedef {[Bookmark.YouTubeBookmark, React.Dispatch<React.SetStateAction<Bookmark.YouTubeBookmark>>]} BookmarkDispatcher
+ */
 
-const BookmarkInfoUpdateContext = React.createContext(null);
+/**
+ * @typedef {object} BookmarkDispatcherProps
+ * @property {BookmarkDispatcher} dispatcher
+ */
 
 /**
  * @typedef {object} BookmarkInfoProp
@@ -52,7 +58,7 @@ function BookmarkInfo(props) {
 }
 
 /**
- * @param {BookmarkInfoProp} props
+ * @param {BookmarkInfoProp&BookmarkDispatcherProps} props
  * @returns {React.JSX.Element}
  */
 function BookmarkInfoHeader(props) {
@@ -91,7 +97,7 @@ function BookmarkInfoHeader(props) {
 
 /**
  *
- * @param {BookmarkInfoProp} props
+ * @param {BookmarkInfoProp&BookmarkDispatcherProps} props
  * @returns {React.JSX.Element}
  */
 function BookmarkInfoBody(props) {
@@ -104,12 +110,15 @@ function BookmarkInfoBody(props) {
     BookmarkStorage.updateBookmark(bookmark, b => b.description = text);
   }
 
-  /**
-   * @param {Array.<Bookmark.YouTubeBookmarkTimeline>} timelines 
-   */
-  function onTimelineChange(timelines) {
+  // timeline for iframe
+  const [currentTimeline, setCurrentTimeline] = useState();
+
+  // timelines for timeline modification
+  const [timelines, setTimelines] = useState(bookmark.timelines);
+
+  useEffect(() => {
     BookmarkStorage.updateBookmark(bookmark, b => b.timelines = timelines);
-  }
+  }, [timelines]);
 
   return (
     <div className="info-body">
@@ -124,10 +133,13 @@ function BookmarkInfoBody(props) {
         }}>
           <Iframe
             title={bookmark.title}
-            src={`https://www.youtube.com/embed/${bookmark.id}`}
-          />
+            src={
+              !currentTimeline || currentTimeline.length === 0 ?
+                `https://www.youtube.com/embed/${bookmark.id}` :
+                `https://www.youtube.com/embed/${bookmark.id}?start=${currentTimeline}`
+            } />
           <Description
-            bookmark={props.bookmark}
+            bookmark={bookmark}
             style={{
               marginTop: 12,
               height: "150px"
@@ -145,13 +157,22 @@ function BookmarkInfoBody(props) {
             height: "inherit"
           }}
           bookmark={bookmark}
-          onTimelineChange={onTimelineChange}
+          timelines={timelines}
+          onTimelineChange={ts => {
+            setTimelines(() => ts);
+          }}
+          onTimelineSelected={setCurrentTimeline}
         />
       </div>
     </div>
   );
 }
 
+/**
+ * @deprecated
+ * @param {*} props 
+ * @returns 
+ */
 function BookmarkInfoFooter(props) {
   const [, setVisible] = useContext(BookmarkInfoModalVisibleContext);
   return (

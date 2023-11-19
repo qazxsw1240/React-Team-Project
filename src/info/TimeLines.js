@@ -1,11 +1,17 @@
 import * as Bookmark from "db/bookmark";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TimeLine from "./TimeLine";
+
+import { IoIosAdd } from "react-icons/io";
+
+import "./timeline.css";
 
 /**
  * @typedef {object} TimelinesProps
  * @property {Bookmark.YouTubeBookmark} bookmark
+ * @property {Array.<Bookmark.YouTubeBookmarkTimeline>} timelines
  * @property {(timelines:Array.<Bookmark.YouTubeBookmarkTimeline>)=>void=} onTimelineChange
+ * @property {(timeline:string)=>void=} onTimelineSelected
  */
 
 /**
@@ -14,23 +20,30 @@ import TimeLine from "./TimeLine";
  * @returns {React.JSX.Element}
  */
 function TimeLines(props) {
-  const { style,
+  const {
+    style,
     bookmark,
-    onTimelineChange = t => undefined
+    timelines,
+    onTimelineChange = t => undefined,
+    onTimelineSelected = t => undefined
   } = props;
-  const [timelines, setTimeLines] = useState(bookmark.timelines);
-  /**
-   * @type {React.MutableRefObject.<?HTMLDivElement>}
-   */
-  const scrollBottomRef = useRef(null);
+
+  const [timelineData, setTimelineData] = useState(timelines);
 
   useEffect(() => {
-    onTimelineChange(timelines);
-  }, [timelines]);
+    onTimelineChange(timelineData);
+  }, [timelineData]);
 
-  useLayoutEffect(() => {
-    scrollBottomRef?.current?.scrollIntoView(false);
-  }, []);
+  /**
+   * @param {number} index 
+   */
+  function deleteTimelineData(index) {
+    setTimelineData(ts => ts.filter((_, i) => i !== index));
+  }
+
+
+  console.log("rerender timelines");
+  console.log(timelineData);
 
   return (
     <div
@@ -39,30 +52,38 @@ function TimeLines(props) {
       style={{ ...(style ?? {}), marginTop: 0 }}>
       <div className="window-inner" style={{ marginTop: 0 }}>
         <div
-          ref={scrollBottomRef}
           style={{ minHeight: 36, maxHeight: 526, overflowY: "scroll" }}>
-          <form onSubmit={e => e.preventDefault()}>
-            {timelines.map((t, i) => <TimeLine
-              timeline={t}
-              onModifyButtonPressed={(type) => {
-                setTimeLines(ts => ts.map((t2, i2) => {
-                  if (i2 === i) {
-                    return { timeline: calculateTimeline(type) };
-                  }
-                  return t2;
-                }));
+          {
+            timelineData.map((t, i) => (
+              <TimeLine
+                key={`${bookmark.id}${i}`}
+                timeline={t}
+                onModifyButtonPressed={type => {
+                  setTimelineData(ts => ts.map((t2, i2) => {
+                    if (i2 === i) {
+                      return { timeline: calculateTimeline(type) };
+                    }
+                    return t2;
+                  }));
+                }}
+                onDeleteButtonPressed={() => {
+                  deleteTimelineData(i);
+                }}
+                onTimelineSelected={onTimelineSelected} />
+            ))
+          }
+          <div
+            className="timeline-add-button"
+            title="북마크 추가">
+            <IoIosAdd
+              style={{
+                margin: "0 auto"
               }}
-              onDeleteButtonPressed={(type) => {
-                const seconds = calculateTimeline(type);
-                setTimeLines(ts => ts.filter(t => t.timeline !== seconds));
+              onClick={() => {
+                setTimelineData(ts => [...ts, ({ timeline: "0" })]);
               }}
             />
-            )}
-            <button
-              onClick={() => setTimeLines(timelines => [...timelines, { timeline: "0" }])}>
-              +
-            </button>
-          </form>
+          </div>
         </div>
       </div>
       <div>
@@ -74,7 +95,7 @@ function TimeLines(props) {
 /**
  * @param {string} timeline 
  */
-function calculateTimeline(timeline) {
+export function calculateTimeline(timeline) {
   const times = timeline.split(":");
   if (times.length === 3) {
     const [hours, minutes, seconds] = times;
