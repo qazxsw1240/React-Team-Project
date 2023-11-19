@@ -1,31 +1,41 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+/**
+ * @typedef {object} ModifiableInputProps
+ * @property {string} text
+ * @property {(text:string)=>void=} onTextChange
+ */
 
 /**
  * 
- * @param {{text : string}} props 
+ * @param {ModifiableInputProps} props 
  * @returns 
  */
 function ModifiableInput(props) {
+  const { onTextChange = s => undefined } = props;
   const [modifiable, setModifiable] = useState(false);
   const [text, setText] = useState(props.text);
-  useEffect(() => { }, [text]);
+
+  useEffect(() => {
+    onTextChange(text);
+  }, [text]);
 
   const changeText = (event) => {
     setText(() => event.target.value);
     setModifiable(() => false);
     props.bookmark[props.category] = event.target.value;
-  }
+  };
 
   const checkCategory = (category) => {
     return category === "title" ?
-      "제목 입력" : "ex) https://www.youtube.com/watch?v=8PG55X45cUs"
-  }
+      "제목 입력" : "ex) https://www.youtube.com/watch?v=8PG55X45cUs";
+  };
 
   const checkKeyEnter = (event) => {
     if (event.key === "Enter") {
-      changeText(event)
+      changeText(event);
     }
-  }
+  };
 
   if (modifiable) {
     return (
@@ -41,8 +51,8 @@ function ModifiableInput(props) {
           type="text"
           defaultValue={props.status !== "new" ? text : ""}
           placeholder={checkCategory(props.category)}
-          onKeyDown={(event) => { checkKeyEnter(event) }}
-          onBlur={(event) => { changeText(event) }}
+          onKeyDown={(event) => { checkKeyEnter(event); }}
+          onBlur={(event) => { changeText(event); }}
           autoFocus={true}
           size={props.size}
         />

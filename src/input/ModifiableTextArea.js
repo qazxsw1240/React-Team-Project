@@ -1,23 +1,32 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 
 /**
- * 
- * @param {{text : string}} props 
+ * @typedef {object} ModifiableTextAreaProps
+ * @property {string} text
+ * @property {(text:string)=>void=} onTextChange
+ */
+
+/**
+ * @param {ModifiableTextAreaProps} props 
  * @returns 
  */
 function ModifiableTextArea(props) {
+  const { onTextChange = s => undefined } = props;
   const [modifiable, setModifiable] = useState(false);
   const [text, setText] = useState(props.text);
-  useEffect(() => { }, [text]);
+
+  useEffect(() => {
+    onTextChange(text);
+  }, [text]);
 
   const changeText = (event) => {
     setText(() => event.target.value);
     setModifiable(() => false);
 
     props.bookmark["description"] = event.target.value;
-    console.log(props.bookmark)
-  }
+    console.log(props.bookmark);
+  };
 
   const handleTextareaChange = (event) => {
     setText(event.target.value);
@@ -25,9 +34,9 @@ function ModifiableTextArea(props) {
 
   const checkKeyEnter = (event) => {
     if (event.key === "Enter") {
-      changeText(event)
+      changeText(event);
     }
-  }
+  };
 
   if (modifiable) {
     return (
