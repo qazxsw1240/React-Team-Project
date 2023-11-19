@@ -5,7 +5,7 @@ import TimeLine from "./TimeLine";
 /**
  * @typedef {object} TimelinesProps
  * @property {Bookmark.YouTubeBookmark} bookmark
- * @property {(timelines:Bookmark.YouTubeBookmarkTimeline[])=>void=} onTimelineChange
+ * @property {(timelines:Array.<Bookmark.YouTubeBookmarkTimeline>)=>void=} onTimelineChange
  */
 
 /**
