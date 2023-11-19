@@ -1,0 +1,33 @@
+https://joyful-development.tistory.com/36
+
+
+// chat gpt
+import React, { useState } from 'react';
+
+const TextareaResizeExample = () => {
+  const [textareaValue, setTextareaValue] = useState('');
+  const [textareaHeight, setTextareaHeight] = useState(100); // 초기 높이 설정
+
+  const handleTextareaChange = (event) => {
+    setTextareaValue(event.target.value);
+  };
+
+  const handleTextareaResize = () => {
+    setTextareaHeight(document.getElementById('textarea').scrollHeight);
+  };
+
+  return (
+    <div>
+      <textarea
+        id="textarea"
+        value={textareaValue}
+        onChange={handleTextareaChange}
+        style={{ height: `${textareaHeight}px` }}
+        onInput={handleTextareaResize}
+        placeholder="Type here..."
+      />
+    </div>
+  );
+};
+
+export default TextareaResizeExample;

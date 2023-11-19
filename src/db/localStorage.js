@@ -7,6 +7,7 @@ import * as Bookmark from "./bookmark";
 const KeyList = { Data: "youTubeBookmarkData" };
 
 export const BookmarkStorage = {
+
   /** 
    * 북마크 데이터가 들어있습니다. 직접 변경하지 마세요.
    * @type {Map.<string, Bookmark.YouTubeBookmark>} 
@@ -37,14 +38,17 @@ export const BookmarkStorage = {
       return;
     }
     const data = localStorage.getItem(KeyList.Data);
+
     if (!data) {
       localStorage.setItem(KeyList.Data, "[]");
       return;
     }
     const json = JSON.parse(data);
+
     if (!Array.isArray(json)) {
       throw new Error("Data corrupted!");
     }
+
     for (const data of json) {
       this._data.set(data.id, data);
     }
@@ -80,7 +84,7 @@ export const BookmarkStorage = {
    * 새로 추가합니다.
    * 
    * @param {string} url 갱신할 북마크의 URL.
-   * @param {(bookmark: YouTubeBookmark) => void} updater 데이터를 갱신할 콜백 함수.
+   * @param {(bookmark: Bookmark.YouTubeBookmark) => void} updater 데이터를 갱신할 콜백 함수.
    * @returns {Handler.ErrorHandler} 성공 여부를 알려주는 오류 핸들러.
    */
   /**
@@ -98,7 +102,7 @@ export const BookmarkStorage = {
       }
       if (!data) {
         const pureUrl = Bookmark.extractPureYouTubeUrl(url);
-        const newData = Bookmark.createYouTubeBookmark(id, pureUrl, "");
+        const newData = Bookmark.createYouTubeBookmark(pureUrl, pureUrl, "");
         updater(newData);
         return this.addBookmark(newData);
       }
@@ -113,6 +117,7 @@ export const BookmarkStorage = {
       if (!data) {
         return this.addBookmark(bookmark);
       }
+      updater(data);
       this._data.set(id, bookmark);
       updateLocalStorageData(this);
       return Handler.success();
@@ -140,6 +145,8 @@ export const BookmarkStorage = {
    * 모든 북마크를 반환합니다.
    * 
    * @returns {Array.<Bookmark.YouTubeBookmark>} 북마크 데이터.
+   * 
+   * bookmark 객체를 저장한 배열 반환
    */
   getAllBookmarks() {
     return [...this._data.values()];

@@ -1,0 +1,8 @@
+:root {
+	--main-font-color: #000f22;  /* CSS 전역 변수 선언 */
+}
+
+div {
+	color: var(--main-font-color);   /* CSS 변수 사용 */
+}
+출처: https://inpa.tistory.com/entry/CSS-📚-CSS용-변수-variable-정리 [Inpa Dev 👨‍💻:티스토리]

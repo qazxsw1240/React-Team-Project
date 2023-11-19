@@ -1,0 +1,46 @@
+@import url(index.css);
+
+:root {
+  --add-min-width: 720px;
+  --add-min-height: 480px;
+  --add-width: 960px;
+  --add-height: 650px;
+}
+
+.add-header {
+  width: inherit;
+  display: flex;
+  justify-content: center;
+}
+
+.add-header-side {
+  width: var(--bookmark-image-width);
+}
+
+.add-header-center {
+  min-width: calc(var(--add-min-width) - calc(var(--bookmark-image-width)*2));
+  max-width: calc(var(--add-width) - calc(var(--bookmark-image-width)*2));
+  width: calc(100% - calc(var(--bookmark-image-width)*2));
+}
+
+.add-body {
+  width: 100%;
+  margin-top: var(--component-margin);
+  overflow: auto;
+  margin-bottom: var(--component-margin);
+}
+
+.add-footer {
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.add-footer-center {
+  width: 300px;
+}
+
+.add-footer-side {
+  width: calc(100% - calc(300px * 2));
+}
