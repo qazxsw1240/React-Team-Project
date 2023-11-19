@@ -1,10 +1,22 @@
-import React from "react";
+import * as Bookmark from "db/bookmark";
 import ModifiableTextArea from "input/ModifiableTextArea";
+import React from "react";
 
+/**
+ * @typedef {object} DescriptionProps
+ * @property {Bookmark.YouTubeBookmark} bookmark
+ * @property {(text:string)=>void=} onTextChange
+ */
+
+/**
+ * @param {DescriptionProps&React.HTMLAttributes} props 
+ * @returns {React.JSX.Element}
+ */
 function Description(props) {
+  const { style, bookmark, onTextChange } = props;
   return (
     <div className="window modifiable"
-      style={props.style}>
+      style={style}>
       <div className="window-inner"
         style={{ height: "100%" }}>
         <font
@@ -12,8 +24,8 @@ function Description(props) {
           동영상 설명
         </font>
         <ModifiableTextArea
-          bookmark={props.bookmark}
-          text={props.bookmark.description}
+          bookmark={bookmark}
+          text={bookmark.description}
           style={{
             height: "90px",
             marginTop: "12px"
@@ -24,7 +36,8 @@ function Description(props) {
             maxLength: 300,
             height: "85px",
             marginTop: "12px"
-          }} />
+          }}
+          onTextChange={onTextChange} />
       </div>
     </div>
   );

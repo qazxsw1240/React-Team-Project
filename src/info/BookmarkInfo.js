@@ -1,19 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
-import Modal from "modal/Modal";
 import CrossButton from "button/CrossButton";
 import * as Bookmark from "db/bookmark";
+import Modal from "modal/Modal";
 
 import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
 
 
-import Img from "img/Img";
-import Iframe from "info/Iframe";
-import ModifiableInput from "input/ModifiableInput";
-import Description from "info/Description";
-import TimeLines from "info/TimeLines";
 import CancelButton from "button/CancelButton";
 import CompleteButton from "button/CompleteButton";
+import { BookmarkStorage } from "db/localStorage";
+import Img from "img/Img";
+import Description from "info/Description";
+import Iframe from "info/Iframe";
+import TimeLines from "info/TimeLines";
+import ModifiableInput from "input/ModifiableInput";
 
 /**
  * @type {React.Context.<[boolean, React.Dispatch.<React.SetStateAction.<boolean>>]>}
@@ -45,7 +46,7 @@ function BookmarkInfo(props) {
     }>
       <BookmarkInfoHeader {...props} />
       <BookmarkInfoBody {...props} />
-      <BookmarkInfoFooter {...props} />
+      {/* <BookmarkInfoFooter {...props} /> */}
     </Modal>
   );
 }
@@ -55,28 +56,34 @@ function BookmarkInfo(props) {
  * @returns {React.JSX.Element}
  */
 function BookmarkInfoHeader(props) {
+  const { bookmark } = props;
   const [, setVisible] = useContext(BookmarkInfoModalVisibleContext);
+
+  /**
+   * @param {string} text 
+   */
+  function onTextChange(text) {
+    BookmarkStorage.updateBookmark(bookmark, b => b.title = text);
+  }
+
   return (
     <div className="info-header">
-
       <div className="info-header-side">
         <Img src={LongThumbnail} />
       </div>
-
       <div className="info-header-center">
         <ModifiableInput
-          bookmark={props.bookmark}
+          bookmark={bookmark}
           category="title"
           type="input-title-text"
           style={{ height: 36, paddingLeft: "12px" }}
-          text={props.bookmark.title}
-          size={47} />
+          text={bookmark.title}
+          size={47}
+          onTextChange={onTextChange} />
       </div>
-
       <div className="info-header-side">
         <CrossButton onClick={() => setVisible(false)} />
       </div>
-
     </div>
   );
 }
@@ -89,9 +96,16 @@ function BookmarkInfoHeader(props) {
  */
 function BookmarkInfoBody(props) {
   const { bookmark } = props;
+
+  /**
+   * @param {string} text 
+   */
+  function onTextChange(text) {
+    BookmarkStorage.updateBookmark(bookmark, b => b.description = text);
+  }
+
   return (
     <div className="info-body">
-
       <div style={{
         width: "60%",
         float: "left"
@@ -110,19 +124,22 @@ function BookmarkInfoBody(props) {
             style={{
               marginTop: 12,
               height: "150px"
-            }} />
+            }}
+            onTextChange={onTextChange} />
         </div>
       </div>
-
       <div style={{
         width: "40%",
         float: "right",
       }}>
-        <TimeLines style={{
-          marginLeft: "calc(var(--component-margin)/2)"
-        }} />
+        <TimeLines
+          style={{
+            marginLeft: "calc(var(--component-margin)/2)",
+            height: "inherit"
+          }}
+          bookmark={bookmark}
+        />
       </div>
-
     </div>
   );
 }
@@ -132,17 +149,13 @@ function BookmarkInfoFooter(props) {
   return (
     <div className="info-footer">
       <div className="info-footer-side">
-
       </div>
-
       <div className="info-footer-center">
       </div>
-
       <div className="info-footer-side">
         <CompleteButton onClick={() => setVisible(false)} />
         <CancelButton onClick={() => setVisible(false)} />
       </div>
-
     </div>
   );
 }
