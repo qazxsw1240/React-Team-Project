@@ -104,6 +104,13 @@ function BookmarkInfoBody(props) {
     BookmarkStorage.updateBookmark(bookmark, b => b.description = text);
   }
 
+  /**
+   * @param {Array.<Bookmark.YouTubeBookmarkTimeline>} timelines 
+   */
+  function onTimelineChange(timelines) {
+    BookmarkStorage.updateBookmark(bookmark, b => b.timelines = timelines);
+  }
+
   return (
     <div className="info-body">
       <div style={{
@@ -138,6 +145,7 @@ function BookmarkInfoBody(props) {
             height: "inherit"
           }}
           bookmark={bookmark}
+          onTimelineChange={onTimelineChange}
         />
       </div>
     </div>
