@@ -25,7 +25,6 @@ function ModifiableTextArea(props) {
     setModifiable(() => false);
 
     props.bookmark["description"] = event.target.value;
-    console.log(props.bookmark);
   };
 
   const handleTextareaChange = (event) => {
