@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import './MainP.css';
+import { useEffect, useState } from 'react';
+import './main.css';
 
-const MainP = () => {
+function Main() {
   const dummyBookmarks = Array.from({ length: 30 }, (_, index) => ({
     id: index + 1,
     title: `북마크 제목 ${index + 1}`,
@@ -9,24 +9,22 @@ const MainP = () => {
 
   const itemsPerPage = 9;
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState("");
   const [searchedBookmarks, setSearchedBookmarks] = useState([]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentBookmarks = searchedBookmarks.slice(indexOfFirstItem, indexOfLastItem);
 
-  const paginate = (pageNumber) => {
+  function paginate(pageNumber) {
     setCurrentPage(pageNumber);
-  };
+  }
 
-  const handleSearch = () => {
-    const filteredBookmarks = dummyBookmarks.filter((bookmark) =>
-      bookmark.title.toLowerCase().includes(searchKeyword.toLowerCase())
-    );
+  function handleSearch() {
+    const filteredBookmarks = dummyBookmarks.filter((bookmark) => bookmark.title.toLowerCase().includes(searchKeyword.toLowerCase()));
     setSearchedBookmarks(filteredBookmarks); // 필터링된 북마크 설정
     setCurrentPage(1); // 페이지를 처음으로 초기화
-  };
+  }
 
   useEffect(() => {
     // 컴포넌트가 처음 렌더링될 때 모든 북마크를 검색된 북마크로 설정
@@ -34,7 +32,7 @@ const MainP = () => {
   }, []);
 
   return (
-    <div className="MainP">
+    <div className="main">
       <div className="header">
         <div className="logo-header">
           YouTube Bookmark
@@ -44,8 +42,7 @@ const MainP = () => {
             type="text"
             placeholder="원하는 북마크의 키워드를 검색"
             value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
-          />
+            onChange={(e) => setSearchKeyword(e.target.value)} />
           <button onClick={handleSearch}>검색</button>
         </div>
       </div>
@@ -70,6 +67,6 @@ const MainP = () => {
       </div>
     </div>
   );
-};
+}
 
-export default MainP;
+export default Main;
