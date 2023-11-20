@@ -1,3 +1,4 @@
+import * as Bookmark from "db/bookmark";
 import Img from "img/Img";
 import React, { useEffect, useState } from 'react';
 
@@ -5,43 +6,47 @@ import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
 
 import './main.css';
 
+const ItemsPerPage = 9;
+const DefaultCurrentPage = 1;
+const DefaultSearchKeyword = "";
+
+const DummyBookmarks = Array.from({ length: 30 }, (_, index) => ({
+  id: index + 1,
+  title: `북마크 제목 ${index + 1}`,
+}));
+
 /**
  * @typedef {object} MainProps
- * @property {*} bookmarks
+ * @property {Array.<Bookmark.YouTubeBookmark>} bookmarks
  */
 
 /**
- * @param {*} props 
+ * @param {MainProps} props 
  * @returns {React.JSX.Element}
  */
 function Main(props) {
-  const dummyBookmarks = Array.from({ length: 30 }, (_, index) => ({
-    id: index + 1,
-    title: `북마크 제목 ${index + 1}`,
-  }));
+  const { bookmarks = DummyBookmarks } = props;
+  const [currentPage, setCurrentPage] = useState(DefaultCurrentPage);
+  const [searchKeyword, setSearchKeyword] = useState(DefaultSearchKeyword);
+  const [searchResults, setSearchResults] = useState(bookmarks);
 
-  const itemsPerPage = 9;
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [searchResults, setSearchResults] = useState(dummyBookmarks);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentBookmarks = searchResults.slice(indexOfFirstItem, indexOfLastItem);
+  const start = (currentPage - 1) * ItemsPerPage;
+  const end = Math.min(searchResults.length, currentPage * ItemsPerPage);
+  const currentBookmarks = searchResults.slice(start, end);
 
   useEffect(() => {
     // 컴포넌트가 처음 렌더링될 때 모든 북마크를 검색된 북마크로 설정
-    setSearchResults(dummyBookmarks);
+    setSearchResults(bookmarks);
   }, []);
 
   useEffect(() => {
     if (searchKeyword.length === 0) {
-      setSearchResults(dummyBookmarks);
+      setSearchResults(bookmarks);
       return;
     }
-    const searchResult = dummyBookmarks.filter(b => b.title.indexOf(searchKeyword) >= 0);
+    const searchResult = bookmarks.filter(b => b.title.indexOf(searchKeyword) >= 0);
     setSearchResults(searchResult);
-    setCurrentPage(1);
+    setCurrentPage(DefaultCurrentPage);
   }, [searchKeyword]);
 
   return (
@@ -49,7 +54,7 @@ function Main(props) {
       <MainHeader onSearchButtonClick={setSearchKeyword} />
       <MainBody bookmarks={currentBookmarks} />
       <PageButtons
-        pages={Math.ceil(searchResults.length / itemsPerPage)}
+        pages={Math.ceil(searchResults.length / ItemsPerPage)}
         onPageButtonClick={page => setCurrentPage(page)} />
     </div>
   );
