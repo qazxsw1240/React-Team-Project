@@ -17,13 +17,14 @@ import TimeLines from "info/TimeLines";
 import ModifiableInput from "input/ModifiableInput";
 
 /**
- * @type {React.Context.<[boolean, React.Dispatch.<React.SetStateAction.<boolean>>]>}
+ * @typedef {[Bookmark.YouTubeBookmark, React.Dispatch<React.SetStateAction<Bookmark.YouTubeBookmark>>]} BookmarkDispatcher
+ */
+
+/**
+ * @type {React.Context.<BookmarkDispatcher>}
  */
 export const BookmarkInfoModalVisibleContext = React.createContext(null);
 
-/**
- * @typedef {[Bookmark.YouTubeBookmark, React.Dispatch<React.SetStateAction<Bookmark.YouTubeBookmark>>]} BookmarkDispatcher
- */
 
 /**
  * @typedef {object} BookmarkDispatcherProps
@@ -40,9 +41,9 @@ export const BookmarkInfoModalVisibleContext = React.createContext(null);
  * @returns {React.JSX.Element}
  */
 function BookmarkInfo(props) {
-  const [visible] = useContext(BookmarkInfoModalVisibleContext);
+  const [bookmark] = useContext(BookmarkInfoModalVisibleContext);
   return (
-    <Modal visible={visible} style={
+    <Modal visible={bookmark !== null} style={
       {
         minWidth: "var(--info-min-width)",
         minHeight: "var(--info-min-height)",
@@ -63,7 +64,7 @@ function BookmarkInfo(props) {
  */
 function BookmarkInfoHeader(props) {
   const { bookmark } = props;
-  const [, setVisible] = useContext(BookmarkInfoModalVisibleContext);
+  const [, setBookmark] = useContext(BookmarkInfoModalVisibleContext);
 
   /**
    * @param {string} text 
@@ -88,7 +89,7 @@ function BookmarkInfoHeader(props) {
           onTextChange={onTextChange} />
       </div>
       <div className="info-header-side">
-        <CrossButton onClick={() => setVisible(false)} />
+        <CrossButton onClick={() => setBookmark(null)} />
       </div>
     </div>
   );
