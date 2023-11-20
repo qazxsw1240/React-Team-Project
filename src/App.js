@@ -1,27 +1,16 @@
-import React from "react";
-import BookmarkList from "./BookmarkIList";
-
-const App = () => {
-  return (
-    <div>
-      <h1>My Bookmark App</h1>
-      <BookmarkList />
-    </div>
-=======
-import React, { useEffect, useState } from "react";
 import BookmarkInfo, { BookmarkInfoModalVisibleContext } from "info/BookmarkInfo";
+import { useEffect, useState } from "react";
 
 import { BookmarkStorage } from "db/localStorage";
 
 import AddBookmark, { AddBookmarkModalVisibleContext } from "add/AddBookmark";
-
+import BookmarkList from "BookmarkIList";
 
 const BookmarkInfoModalVisibleContextProvider = BookmarkInfoModalVisibleContext.Provider;
 
 const AddBookmarkModalVisibleContextProvider = AddBookmarkModalVisibleContext.Provider;
 
-
-function App() {
+const App = () => {
   useEffect(() => {
     BookmarkStorage.initializeData();
     BookmarkStorage.updateBookmark("https://youtu.be/5bId3N7QZec", () => { });
@@ -43,6 +32,7 @@ function App() {
       <div className="window modifiable">
         <font className="window-inner-title">Hello, World!</font>
       </div>
+      <BookmarkList />
 
       <BookmarkInfoModalVisibleContextProvider value={bookmarkInfoModalVisibleContext}>
         {infoVisible ? <BookmarkInfo bookmark={bookmarks[0]} /> : <></>}
