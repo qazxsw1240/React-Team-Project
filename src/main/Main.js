@@ -1,9 +1,12 @@
 import * as Bookmark from "db/bookmark";
 import Img from "img/Img";
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
 
+import { BookmarkActionContext } from "App";
+import BookmarkItem from "bookmarkItem/BookmarkItem";
+import { BookmarkInfoModalVisibleContext } from "info/BookmarkInfo";
 import './main.css';
 
 const ItemsPerPage = 9;
@@ -32,12 +35,12 @@ function Main(props) {
 
   const start = (currentPage - 1) * ItemsPerPage;
   const end = Math.min(searchResults.length, currentPage * ItemsPerPage);
-  const currentBookmarks = searchResults.slice(start, end);
+  const currentBookmarks = searchResults.filter((_, i) => start <= i && i < end);
 
   useEffect(() => {
     // 컴포넌트가 처음 렌더링될 때 모든 북마크를 검색된 북마크로 설정
     setSearchResults(bookmarks);
-  }, []);
+  }, [bookmarks]);
 
   useEffect(() => {
     if (searchKeyword.length === 0) {
@@ -119,14 +122,17 @@ function MainHeader(props) {
  */
 function MainBody(props) {
   const { bookmarks } = props;
+  const [, setInfoVisible] = useContext(BookmarkInfoModalVisibleContext);
+  const [, setBookmarkAction] = useContext(BookmarkActionContext);
+  console.log(useContext(BookmarkActionContext));
   return (
     <div className="bookmarks-container">
       {
         bookmarks.map(b => (
-          <div key={b.id} className="bookmark">
-            <h2>Bookmarks</h2>
-            <p>{b.title}</p>
-          </div>
+          <BookmarkItem
+            bookmark={b}
+            onBookmarkClick={() => setInfoVisible(() => b)}
+            onBookmarkDeleteClick={() => setBookmarkAction({ type: "DELETE", bookmark: b })} />
         ))
       }
     </div>
