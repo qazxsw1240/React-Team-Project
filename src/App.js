@@ -1,14 +1,13 @@
 import React from "react";
-import "./index.css";
+import BookmarkList from "./BookmarkIList";
 
-function App() {
+const App = () => {
   return (
     <div>
-      <div className="text-window modifiable">
-        <div className="text-title text-window-inner">Hello, World!</div>
-      </div>
+      <h1>My Bookmark App</h1>
+      <BookmarkList />
     </div>
   );
-}
+};
 
 export default App;
