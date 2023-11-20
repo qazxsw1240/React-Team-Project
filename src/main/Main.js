@@ -1,7 +1,20 @@
-import { useEffect, useState } from 'react';
+import Img from "img/Img";
+import React, { useEffect, useState } from 'react';
+
+import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
+
 import './main.css';
 
-function Main() {
+/**
+ * @typedef {object} MainProps
+ * @property {*} bookmarks
+ */
+
+/**
+ * @param {*} props 
+ * @returns {React.JSX.Element}
+ */
+function Main(props) {
   const dummyBookmarks = Array.from({ length: 30 }, (_, index) => ({
     id: index + 1,
     title: `북마크 제목 ${index + 1}`,
@@ -10,61 +23,147 @@ function Main() {
   const itemsPerPage = 9;
   const [currentPage, setCurrentPage] = useState(1);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [searchedBookmarks, setSearchedBookmarks] = useState([]);
+  const [searchResults, setSearchResults] = useState(dummyBookmarks);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentBookmarks = searchedBookmarks.slice(indexOfFirstItem, indexOfLastItem);
-
-  function paginate(pageNumber) {
-    setCurrentPage(pageNumber);
-  }
-
-  function handleSearch() {
-    const filteredBookmarks = dummyBookmarks.filter((bookmark) => bookmark.title.toLowerCase().includes(searchKeyword.toLowerCase()));
-    setSearchedBookmarks(filteredBookmarks); // 필터링된 북마크 설정
-    setCurrentPage(1); // 페이지를 처음으로 초기화
-  }
+  const currentBookmarks = searchResults.slice(indexOfFirstItem, indexOfLastItem);
 
   useEffect(() => {
     // 컴포넌트가 처음 렌더링될 때 모든 북마크를 검색된 북마크로 설정
-    setSearchedBookmarks(dummyBookmarks);
+    setSearchResults(dummyBookmarks);
   }, []);
+
+  useEffect(() => {
+    if (searchKeyword.length === 0) {
+      setSearchResults(dummyBookmarks);
+      return;
+    }
+    const searchResult = dummyBookmarks.filter(b => b.title.indexOf(searchKeyword) >= 0);
+    setSearchResults(searchResult);
+    setCurrentPage(1);
+  }, [searchKeyword]);
 
   return (
     <div className="main">
-      <div className="header">
-        <div className="logo-header">
-          YouTube Bookmark
-        </div>
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="원하는 북마크의 키워드를 검색"
-            value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)} />
-          <button onClick={handleSearch}>검색</button>
-        </div>
+      <MainHeader onSearchButtonClick={setSearchKeyword} />
+      <MainBody bookmarks={currentBookmarks} />
+      <PageButtons
+        pages={Math.ceil(searchResults.length / itemsPerPage)}
+        onPageButtonClick={page => setCurrentPage(page)} />
+    </div>
+  );
+}
+
+
+/**
+ * @typedef {object} MainHeaderProps
+ * @property {(keyword:string)=>void=} onSearchButtonClick
+ */
+
+/**
+ * @param {MainHeaderProps} props
+ * @returns {React.JSX.Element}
+ */
+function MainHeader(props) {
+  const { onSearchButtonClick = _ => undefined } = props;
+  const [keyword, setKeyword] = useState("");
+
+  /**
+   * @param {React.KeyboardEvent.<HTMLInputElement>&React.BaseSyntheticEvent.<HTMLInputElement,any,HTMLInputElement>} event 
+   */
+  function checkEnterInput(event) {
+    const target = event.target;
+    if (event.key === "Enter") {
+      setKeyword(target.value);
+      onSearchButtonClick(keyword);
+    }
+  }
+
+  return (
+    <div className="header">
+      <div className="logo-header">
+        <Img src={LongThumbnail} />
       </div>
-      <div className="bookmarks-container">
-        {currentBookmarks.map((bookmark) => (
-          <div key={bookmark.id} className="bookmark">
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="원하는 북마크의 키워드를 입력해서 검색"
+          value={keyword}
+          onKeyDown={checkEnterInput}
+          onChange={(e) => setKeyword(e.target.value)} />
+        <button
+          className="search-button"
+          onClick={() => onSearchButtonClick(keyword)}>
+          검색
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
+/**
+ * @typedef {object} MainBodyProps
+ * @property {Array.<object>} bookmarks
+ */
+
+/**
+ * @param {MainBodyProps} props
+ * @returns {React.JSX.Element}
+ */
+function MainBody(props) {
+  const { bookmarks } = props;
+  return (
+    <div className="bookmarks-container">
+      {
+        bookmarks.map(b => (
+          <div key={b.id} className="bookmark">
             <h2>Bookmarks</h2>
-            <p>{bookmark.title}</p>
+            <p>{b.title}</p>
           </div>
-        ))}
-      </div>
-      <div className="pagination">
-        {searchedBookmarks.length > itemsPerPage && (
+        ))
+      }
+    </div>
+  );
+}
+
+
+/**
+ * @typedef {object} PageButtonsProps
+ * @property {number} pages
+ * @property {(page:number)=>void=} onPageButtonClick
+ */
+
+/**
+ * @returns {React.JSX.Element}
+ */
+function PageButtons(props) {
+  const {
+    pages,
+    onPageButtonClick = _ => undefined
+  } = props;
+  return (
+    <div className="pagination">
+      {
+        pages > 1 &&
+        (
           <ul>
-            {Array.from({ length: Math.ceil(searchedBookmarks.length / itemsPerPage) }, (_, index) => (
-              <li key={index}>
-                <button onClick={() => paginate(index + 1)}>{index + 1}</button>
-              </li>
-            ))}
+            {
+              Array.from(
+                { length: pages },
+                (_, i) => (
+                  <li key={i}>
+                    <button onClick={() => onPageButtonClick(i + 1)}>
+                      {i + 1}
+                    </button>
+                  </li>
+                )
+              )
+            }
           </ul>
-        )}
-      </div>
+        )
+      }
     </div>
   );
 }

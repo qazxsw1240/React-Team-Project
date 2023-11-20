@@ -8,46 +8,83 @@
 }
 
 .header {
-  display: flex;
+  /* display: flex; */
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   margin-bottom: 20px;
+
+  &>.logo-header {
+    width: 0px;
+    height: auto;
+    float: left;
+  }
+
+  &>.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+
+    &>input[type='text'] {
+      margin-left: 10px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-sizing: border-box;
+      height: 36px;
+      border-top-left-radius: 18px;
+      border-bottom-left-radius: 18px;
+      font-size: 16px;
+    }
+
+    &>.search-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+      border-top-right-radius: 18px;
+      border-bottom-right-radius: 18px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
 }
 
-.header img {
+/* .header img {
   width: 110px;
   height: auto;
-}
+  float: left;
+} */
 
 h1 {
   margin: 0;
 }
 
-.search-bar {
+/* .search-bar {
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 1;
-}
+} */
 
-input[type='text'] {
+/* input[type='text'] {
   padding: 8px;
   margin-left: 10px;
   width: 100%;
   max-width: 400px;
   text-align: center;
-}
+} */
 
 button {
   padding: 8px 16px;
-  background-color: #cb2e3e;
+  background-color: red;
   color: #fff;
   border: none;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #cb2e3e;
+  background-color: rgba(255, 0, 0, 0.5);
 }
 
 .bookmarks-container {
@@ -78,13 +115,12 @@ button:hover {
 
 /* 페이지네이션 버튼*/
 .pagination ul li button {
+  border-radius: 18px;
   padding: 5px 10px;
-  background-color: #cb2e3e;
-  color: #fff;
   border: none;
   cursor: pointer;
 }
 
-.pagination ul li button:hover {
+/* .pagination ul li button:hover {
   background-color: #cb2e3e;
-}
+} */
