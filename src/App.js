@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { BookmarkStorage } from "db/localStorage";
 
 import AddBookmark, { AddBookmarkModalVisibleContext } from "add/AddBookmark";
-import BookmarkList from "BookmarkIList";
+import BookmarkList from "bookmarkItem/BookmarkIList";
 
 const BookmarkInfoModalVisibleContextProvider = BookmarkInfoModalVisibleContext.Provider;
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { BookmarkStorage } from "./db/localStorage";
+import { useEffect, useState } from "react";
+import { BookmarkStorage } from "../db/localStorage";
 
 const BookmarkList = () => {
   const [bookmarks, setBookmarks] = useState([]);

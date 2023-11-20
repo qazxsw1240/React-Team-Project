@@ -1,9 +1,9 @@
 // BookmarkList.js
 
-import React, { useState, useEffect } from "react";
-import { BookmarkStorage } from "./db/localStorage";
+import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import ReactPaginate from "react-js-pagination";
+import { BookmarkStorage } from "../db/localStorage";
 import "./BookmarkList.css";
 
 /** 
@@ -80,7 +80,7 @@ const BookmarkList = () => {
     window.location.href = url;
   };
 
-  
+
   const indexOfLastBookmark = currentPage * bookmarksPerPage;
   const indexOfFirstBookmark = indexOfLastBookmark - bookmarksPerPage;
   const currentBookmarks = bookmarks.slice(
