@@ -80,18 +80,7 @@ const BookmarkList = () => {
     window.location.href = url;
   };
 
-  const addSampleBookmark = () => {
-    const sampleBookmark = {
-      id: new Date().getTime(),
-      title: "샘플 북마크",
-      description: "이것은 샘플 북마크입니다.",
-      url: "https://www.youtube.com/watch?v=bCpK2dTIlmU",
-    };
-
-    BookmarkStorage.addBookmark(sampleBookmark);
-    setBookmarks([...BookmarkStorage.getAllBookmarks()]);
-  };
-
+  
   const indexOfLastBookmark = currentPage * bookmarksPerPage;
   const indexOfFirstBookmark = indexOfLastBookmark - bookmarksPerPage;
   const currentBookmarks = bookmarks.slice(
@@ -106,7 +95,6 @@ const BookmarkList = () => {
   return (
     <div>
       <h2>북마크 목록</h2>
-      <button onClick={addSampleBookmark}>샘플 북마크 추가</button>
       <div className="bookmark-container">
         {currentBookmarks.map((bookmark) => (
           <div
