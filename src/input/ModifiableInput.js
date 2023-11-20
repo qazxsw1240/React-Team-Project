@@ -49,7 +49,7 @@ function ModifiableInput(props) {
             flexWrap: "wrap"
           }}
           type="text"
-          defaultValue={props.status !== "new" ? text : ""}
+          defaultValue={text}
           placeholder={checkCategory(props.category)}
           onKeyDown={(event) => { checkKeyEnter(event); }}
           onBlur={(event) => { changeText(event); }}

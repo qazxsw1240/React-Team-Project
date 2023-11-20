@@ -83,12 +83,12 @@ function AddBookmarkBody(props) {
                 <ModifiableInput
                   style={{
                     height: 36,
-                    paddingLeft: "12px"
+                    paddingLeft: "13px",
+                    width: "400px"
                   }}
                   bookmark={props.bookmark}
-                  status="new"
                   category="title"
-                  text="제목 입력"
+                  text=""
                   type="input-text"
                   size={51}
                 />
@@ -102,12 +102,12 @@ function AddBookmarkBody(props) {
                 <ModifiableInput
                   style={{
                     height: 36,
-                    paddingLeft: "12px"
+                    paddingLeft: "12px",
+                    width: "400px"
                   }}
                   bookmark={props.bookmark}
-                  status="new"
                   category="url"
-                  text="링크 입력"
+                  text=""
                   type="input-text"
                   size={51}
                 />
@@ -119,15 +119,17 @@ function AddBookmarkBody(props) {
               </th>
               <td>
                 <ModifiableTextArea
-                  style={{ height: "90px" }}
+                  style={{
+                    height: "90px",
+                    width: "400px"
+                  }}
                   attributes={{
                     cols: 53,
                     maxLength: 250,
                     height: "80px"
                   }}
                   bookmark={props.bookmark}
-                  status="new"
-                  text="description"
+                  text=""
                 />
               </td>
             </tr>
