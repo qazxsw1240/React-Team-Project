@@ -40,7 +40,8 @@ function BookmarkItem(props) {
       className="bookmark-item">
       <div
         className="bookmark-item-container"
-        onClick={() => onBookmarkClick(bookmark)}>
+        onClick={() => onBookmarkClick(bookmark)}
+        title={bookmark.title}>
         <div className="thumbnail-container">
           <img
             src={`https://img.youtube.com/vi/${bookmark.id}/hqdefault.jpg`}
