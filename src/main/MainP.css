@@ -1,0 +1,94 @@
+.MainP {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.logo-header {
+  font-size: 24px; 
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.header img {
+  width: 110px;
+
+  height: auto;
+
+}
+
+h1 {
+  margin: 0;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 1;
+
+}
+
+input[type='text'] {
+  padding: 8px;
+  margin-left: 10px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: #cb2e3e;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #cb2e3e;
+}
+
+.bookmarks-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.bookmark {
+  border: 3px solid #ec9898;
+  padding: 15px;
+  width: 350px;
+  text-align: center;
+  margin-left: 50px;
+  margin-right: 0;
+}
+
+.pagination ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination ul li {
+  margin: 0 5px;
+}
+
+/* 페이지네이션 버튼*/
+.pagination ul li button {
+  padding: 5px 10px;
+  background-color: #cb2e3e;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination ul li button:hover {
+  background-color: #cb2e3e;
+}
