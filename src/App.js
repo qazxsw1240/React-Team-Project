@@ -1,3 +1,13 @@
+import React from "react";
+import BookmarkList from "./BookmarkIList";
+
+const App = () => {
+  return (
+    <div>
+      <h1>My Bookmark App</h1>
+      <BookmarkList />
+    </div>
+=======
 import React, { useEffect, useState } from "react";
 import BookmarkInfo, { BookmarkInfoModalVisibleContext } from "info/BookmarkInfo";
 
@@ -45,6 +55,6 @@ function App() {
       <button onClick={() => setAddVisible(() => true)}>추가 +</button>
     </>
   );
-}
+};
 
 export default App;
