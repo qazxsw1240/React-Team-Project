@@ -1,0 +1,94 @@
+@import "../index.css";
+
+:root {
+  --button-width: 64px;
+  --button-height: 36px;
+  --border-radius: 18px;
+}
+
+.timeline {
+  margin-top: 6px;
+  display: flex;
+
+  &>input {
+    font-size: var(--default-text-size);
+    height: var(--button-height);
+    border-radius: var(--border-radius);
+  }
+
+  * {
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+}
+
+.timeline:hover {
+  cursor: pointer;
+}
+
+.timeline-input {
+  max-width: 150px;
+}
+
+.timeline-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: var(--button-width);
+  height: var(--button-height);
+  border-radius: var(--border-radius);
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.timeline-edit-button {
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+}
+
+.timeline-edit-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.timeline-delete-button {
+  color: white;
+  background-color: red;
+}
+
+.timeline-delete-button:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.timeline-add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+  border-radius: var(--border-radius);
+  margin: 3px;
+
+  height: var(--button-side-length);
+  min-width: var(--button-side-length);
+  border-radius: var(--button-border-radius);
+  border-style: none;
+
+
+  float: right;
+  color: white;
+  background-color: red;
+  font-size: 20px;
+  width: 36;
+  height: 36;
+  display: flex;
+  align-items: center;
+}
+
+.timeline-add-button:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+}

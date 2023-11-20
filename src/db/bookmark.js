@@ -103,7 +103,7 @@ export function extractYouTubeId(url) {
  * @returns {?YouTubeBookmarkTimeline} 타임라인이 URL에 있으면 객체를 반환하고, 그렇지 않으면 null 반환함.
  */
 function extractTimeline(url) {
-  const host = url.href;
+  const host = url.host;
   if (host !== YouTubeLongUrlHost && host !== YouTubeShortUrlHost) {
     throw new TypeError("Cannot extract YouTube timeline: " + url.toString());
   }
@@ -148,4 +148,89 @@ export function extractPureYouTubeUrl(url, id) {
     id = extractYouTubeId(url);
   }
   return `https://${YouTubeShortUrlHost}/${id}`;
+}
+
+
+/**
+ * 
+ * @param {string} str 북마크 추가 시 입력하는 url 문자열
+ * @returns {boolean} 입력된 url 문자열의 접두사가 https://www.youtube.com/watch?v=인지 여부
+ */
+function isYoutubeLink(str) {
+  const youtubeLinkPrefix = "https://www.youtube.com/watch?v=";
+  return str.startsWith(youtubeLinkPrefix);
+}
+
+/**
+ * 
+ * @param {string} str 접두사가 https://www.youtube.com/watch?v=인 url 문자열
+ * @returns {string} 비디오 영상의 id를 반환 | 해시 문자열
+ * 
+ * str에서 get 요청 방식에서 매개변수 제거(& 뒤의 문자열 제거)
+ * 
+ */
+export function getYoutubeLinkId(str) {
+  const splitParameterArr = str.split("&")
+  str = splitParameterArr[0]
+
+  const youtubeLinkPrefix = "https://www.youtube.com/watch?v=";
+  const startIndex = str.indexOf(youtubeLinkPrefix);
+
+  if (startIndex !== -1) {
+    return str.substring(startIndex + youtubeLinkPrefix.length);
+  } else {
+    return "";
+  }
+}
+
+/**
+ * 
+ * @param {string} link 유튜브 비디오의 썸네일 링크 | https://img.youtube.com/vi/${youtubeId}/0.jpg
+ * @param {string} youtubeId 유튜브 비디오의 아이디 | 해시 문자열 
+ * @returns {Promise} 이미지를 html에 로딩하는 함수를 실행하는 Promise 객체
+ */
+function loadImage(link, youtubeId) {
+  return new Promise((resolve, reject) => {
+    const youtubeImg = new Image();
+
+    youtubeImg.onload = () => { resolve() }
+    youtubeImg.onerror = () => { reject(new Error('이미지 로드 실패')) };
+
+    youtubeImg.src = link;
+    youtubeImg.id = youtubeId;
+    youtubeImg.style.display = "none";
+
+    document.getElementById("root").appendChild(youtubeImg);
+  })
+}
+
+/**
+ * 1. 입력된 문자열이 url 형식인지 확인
+ * 2. url로부터 유튜브 video id 추출
+ * 3. id를 이용하여 image 객체 생성 및 html에 로드 실행
+ * 4. 로드된 이미지의 width, height 측정(정상 : width = 480, height = 360)
+ * 
+ * @param {string} str 문자열 
+ * @returns {boolean} 입력된 문자열이 유효한 url인지 여부
+ */
+export function validationLink(str) {
+  if (isYoutubeLink(str) === false) {
+    return false;
+  }
+
+  const youtubeId = getYoutubeLinkId(str);
+  const link = `https://img.youtube.com/vi/${youtubeId}/0.jpg`;
+
+  (async () => {
+    try {
+      await loadImage(link, youtubeId);
+    }
+    catch (err) {
+      console.error(err.message);
+    }
+    finally {
+      const renderedImg = document.getElementById(youtubeId);
+      return renderedImg.width > 120 && renderedImg.height > 90;
+    }
+  })();
 }

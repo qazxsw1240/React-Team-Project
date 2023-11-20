@@ -1,0 +1,3 @@
+https://okky.kr/articles/666976
+
+jsx에서 style={}로 정의해야 적용됨

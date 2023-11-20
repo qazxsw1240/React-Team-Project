@@ -1,0 +1,7 @@
+1. 접두사가 "https://www.youtube.com/watch?v="인지 확인
+
+2. img 객체 생성 및 src=https://img.youtube.com/vi/{id}/0.jpg 등 속성 정의
+
+3. document.getElementById("root").appendChild();로 onload
+
+4. 유효한 링크일 경우 이미지 크기는 480 X 360, 아닐 경우 120 X 90
