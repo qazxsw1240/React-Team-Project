@@ -165,8 +165,14 @@ function isYoutubeLink(str) {
  * 
  * @param {string} str 접두사가 https://www.youtube.com/watch?v=인 url 문자열
  * @returns {string} 비디오 영상의 id를 반환 | 해시 문자열
+ * 
+ * str에서 get 요청 방식에서 매개변수 제거(& 뒤의 문자열 제거)
+ * 
  */
 export function getYoutubeLinkId(str) {
+  const splitParameterArr = str.split("&")
+  str = splitParameterArr[0]
+
   const youtubeLinkPrefix = "https://www.youtube.com/watch?v=";
   const startIndex = str.indexOf(youtubeLinkPrefix);
 
