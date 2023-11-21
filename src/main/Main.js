@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { IoIosAdd } from "react-icons/io";
+import { IoAlertCircleOutline } from "react-icons/io5";
 
 
 import * as Bookmark from "db/bookmark";
@@ -54,7 +55,9 @@ function Main(props) {
   return (
     <div className="main">
       <MainHeader onSearchButtonClick={setSearchKeyword} />
-      <MainBody bookmarks={currentBookmarks} />
+      <MainBody
+        searchKeyword={searchKeyword}
+        bookmarks={currentBookmarks} />
       <PageButtons
         pages={Math.ceil(searchResults.length / ItemsPerPage)}
         onPageButtonClick={page => setCurrentPage(page)} />
@@ -121,6 +124,7 @@ function MainHeader(props) {
 
 /**
  * @typedef {object} MainBodyProps
+ * @property {string} searchKeyword
  * @property {Array.<object>} bookmarks
  */
 
@@ -129,20 +133,61 @@ function MainHeader(props) {
  * @returns {React.JSX.Element}
  */
 function MainBody(props) {
-  const { bookmarks } = props;
+  const { searchKeyword, bookmarks } = props;
   const [, setInfoVisible] = useContext(BookmarkInfoModalVisibleContext);
   const [, setBookmarkAction] = useContext(BookmarkActionContext);
   return (
-    <div className="bookmarks-container">
+    bookmarks.length === 0 ?
+      <div className="bookmarks-container">
+        <BookmarkNotFound isSearch={searchKeyword.length !== 0} />
+      </div> :
+      <div className="bookmarks-container-non-grow">
+        {bookmarks.map(b => (
+          <BookmarkItem
+            bookmark={b}
+            onBookmarkClick={() => setInfoVisible(() => b)}
+            onBookmarkDeleteClick={() => setBookmarkAction({ type: "DELETE", bookmark: b })} />
+        ))}
+      </div>
+  );
+}
+
+
+/**
+ * @returns {React.JSX.Element}
+ */
+function BookmarkNotFound(props) {
+  const { isSearch } = props;
+  return (
+    <div className="bookmarks-not-found">
       {
-        bookmarks.length === 0 ?
-          <></> :
-          bookmarks.map(b => (
-            <BookmarkItem
-              bookmark={b}
-              onBookmarkClick={() => setInfoVisible(() => b)}
-              onBookmarkDeleteClick={() => setBookmarkAction({ type: "DELETE", bookmark: b })} />
-          ))
+        isSearch ?
+          (
+            <>
+              <IoAlertCircleOutline
+                style={{
+                  color: "red",
+                  fontSize: 128,
+                  height: 128
+                }} />
+              <div>
+                해당하는 북마크가 없습니다.
+              </div>
+            </>
+          ) :
+          (
+            <>
+              <IoAlertCircleOutline
+                style={{
+                  color: "red",
+                  fontSize: 128,
+                  height: 128
+                }} />
+              <div>
+                아직 북마크가 없습니다. 북마크를 추가해 보세요.
+              </div>
+            </>
+          )
       }
     </div>
   );

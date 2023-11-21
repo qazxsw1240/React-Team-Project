@@ -1,6 +1,8 @@
 .main {
-  font-family: Arial, sans-serif;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* padding: 20px; */
 }
 
 .logo-header {
@@ -9,7 +11,9 @@
 
 .header {
   align-items: center;
+  margin-top: 20px;
   margin-bottom: 20px;
+  flex-grow: 0;
 
   &>.logo-header {
     width: 0px;
@@ -92,14 +96,38 @@ button:hover {
   background-color: rgba(255, 0, 0, 0.5);
 }
 
-.bookmarks-container {
+.bookmarks-container-non-grow {
   display: grid;
+  flex-grow: 0;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 10px;
 
   &>* {
     align-self: center;
     justify-self: center;
+  }
+}
+
+.bookmarks-container {
+  display: grid;
+  flex-grow: 1;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 10px;
+
+  &>* {
+    align-self: center;
+    justify-self: center;
+  }
+}
+
+.bookmarks-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+
+  &>div {
+    flex-grow: 1;
   }
 }
 
