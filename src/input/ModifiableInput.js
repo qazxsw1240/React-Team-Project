@@ -44,7 +44,9 @@ function ModifiableInput(props) {
         <input
           className={props.type}
           style={{
-            // flexWrap: "wrap"
+            height: 30,
+            paddingLeft: "10px",
+            flexWrap: "wrap"
           }}
           type="text"
           defaultValue={text}
