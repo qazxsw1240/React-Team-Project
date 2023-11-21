@@ -142,7 +142,7 @@ function AddBookmarkBody(props) {
                     minHeight: "90px",
                     paddingLeft: "8px",
                     paddingTop: "8px"
-                  }
+                  }}
                   text=""
                   onTextChange={text => setBookmarkData(() => {
                     const clone = { ...bookmarkData };
