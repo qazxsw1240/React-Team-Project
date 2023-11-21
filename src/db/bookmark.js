@@ -102,7 +102,7 @@ export function extractYouTubeId(url) {
  * @param {URL} url 타임라인을 추출할 URL 객체.
  * @returns {?YouTubeBookmarkTimeline} 타임라인이 URL에 있으면 객체를 반환하고, 그렇지 않으면 null 반환함.
  */
-function extractTimeline(url) {
+export function extractTimeline(url) {
   const host = url.host;
   if (host !== YouTubeLongUrlHost && host !== YouTubeShortUrlHost) {
     throw new TypeError("Cannot extract YouTube timeline: " + url.toString());
@@ -170,8 +170,8 @@ function isYoutubeLink(str) {
  * 
  */
 export function getYoutubeLinkId(str) {
-  const splitParameterArr = str.split("&")
-  str = splitParameterArr[0]
+  const splitParameterArr = str.split("&");
+  str = splitParameterArr[0];
 
   const youtubeLinkPrefix = "https://www.youtube.com/watch?v=";
   const startIndex = str.indexOf(youtubeLinkPrefix);
@@ -193,15 +193,15 @@ function loadImage(link, youtubeId) {
   return new Promise((resolve, reject) => {
     const youtubeImg = new Image();
 
-    youtubeImg.onload = () => { resolve() }
-    youtubeImg.onerror = () => { reject(new Error('이미지 로드 실패')) };
+    youtubeImg.onload = () => { resolve(); };
+    youtubeImg.onerror = () => { reject(new Error('이미지 로드 실패')); };
 
     youtubeImg.src = link;
     youtubeImg.id = youtubeId;
     youtubeImg.style.display = "none";
 
     document.getElementById("root").appendChild(youtubeImg);
-  })
+  });
 }
 
 /**
