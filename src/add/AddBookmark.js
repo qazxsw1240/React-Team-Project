@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import CrossButton from "button/CrossButton";
 import * as Bookmark from "db/bookmark";
@@ -13,6 +13,7 @@ import ModifiableInput from "input/ModifiableInput";
 import ModifiableTextArea from "input/ModifiableTextArea";
 
 import { executeSwal } from "alert/executeSwal";
+import { BookmarkActionContext } from "App";
 import { BookmarkStorage } from "db/localStorage";
 
 /**
@@ -20,15 +21,20 @@ import { BookmarkStorage } from "db/localStorage";
  */
 export const AddBookmarkModalVisibleContext = React.createContext(null);
 
+/**
+ * @type {Bookmark.YouTubeBookmark}
+ */
+const EmptyBookmarkData = {
+  id: "",
+  url: "",
+  title: "",
+  description: "",
+  timelines: []
+};
+
 function AddBookmark() {
   const [visible] = useContext(AddBookmarkModalVisibleContext);
-  const AddBookmarkObject = {
-    id: "",
-    url: "",
-    title: "",
-    description: "",
-    timelines: []
-  };
+  const [bookmarkData, setBookmarkData] = useState(EmptyBookmarkData);
 
   return (
     <Modal visible={visible} style={{
@@ -38,8 +44,8 @@ function AddBookmark() {
       height: 510
     }}>
       <AddBookmarkHeader />
-      <AddBookmarkBody bookmark={AddBookmarkObject} />
-      <AddBookmarkFooter bookmark={AddBookmarkObject} />
+      <AddBookmarkBody bookmarkDataState={[bookmarkData, setBookmarkData]} />
+      <AddBookmarkFooter bookmarkDataState={[bookmarkData, setBookmarkData]} />
     </Modal>
   );
 }
@@ -51,19 +57,27 @@ function AddBookmarkHeader() {
       <div className="add-header-side">
         <Img src={LongThumbnail} />
       </div>
-
       <div className="add-header-center" />
-
-      <div className="add-header-side">
+      <div
+        className="add-header-side"
+        title="창 닫기">
         <CrossButton onClick={() => setVisible(false)} />
       </div>
     </div >
   );
 }
 
-
+/**
+ * @typedef {object} AddBookmarkBodyProps
+ * @property {[Bookmark.YouTubeBookmark, React.Dispatch.<React.SetStateAction.<Bookmark.YouTubeBookmark>>]} bookmarkDataState
+ */
+/**
+ * 
+ * @param {AddBookmarkBodyProps} props 
+ * @returns {React.JSX.Element}
+ */
 function AddBookmarkBody(props) {
-
+  const [bookmarkData, setBookmarkData] = props.bookmarkDataState;
   return (
     <div className="add-body"
       style={{
@@ -71,7 +85,6 @@ function AddBookmarkBody(props) {
         justifyContent: "center",
         marginTop: "50px"
       }}>
-
       <div>
         <table width="600px" height="330px">
           <tbody>
@@ -86,10 +99,14 @@ function AddBookmarkBody(props) {
                     paddingLeft: "12px",
                     width: "400px"
                   }}
-                  bookmark={props.bookmark}
                   category="title"
                   text=""
                   type="input-text"
+                  onTextChange={text => setBookmarkData(() => {
+                    const clone = { ...bookmarkData };
+                    clone.title = text;
+                    return clone;
+                  })}
                 />
               </td>
             </tr>
@@ -104,10 +121,14 @@ function AddBookmarkBody(props) {
                     paddingLeft: "12px",
                     width: "400px"
                   }}
-                  bookmark={props.bookmark}
                   category="url"
                   text=""
                   type="input-text"
+                  onTextChange={text => setBookmarkData(() => {
+                    const clone = { ...bookmarkData };
+                    clone.url = text;
+                    return clone;
+                  })}
                 />
               </td>
             </tr>
@@ -121,55 +142,62 @@ function AddBookmarkBody(props) {
                     minHeight: "90px",
                     paddingLeft: "8px",
                     paddingTop: "8px"
-                  }}
-                  bookmark={props.bookmark}
+                  }
                   text=""
+                  onTextChange={text => setBookmarkData(() => {
+                    const clone = { ...bookmarkData };
+                    clone.description = text;
+                    return clone;
+                  })}
                 />
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }
 
+
+/**
+ * @typedef {object} AddBookmarkFooterProps
+ * @property {[Bookmark.YouTubeBookmark, React.Dispatch.<React.SetStateAction.<Bookmark.YouTubeBookmark>>]} bookmarkDataState
+ */
+/**
+ * 
+ * @param {AddBookmarkFooterProps} props 
+ * @returns {React.JSX.Element}
+ */
 function AddBookmarkFooter(props) {
   const [, setVisible] = useContext(AddBookmarkModalVisibleContext);
+  const [, setBookmarkAction] = useContext(BookmarkActionContext);
+  const [bookmarkData] = props.bookmarkDataState;
   return (
     <div className="add-footer">
       <div className="add-footer-side" />
-
       <div className="add-footer-center">
         <CompleteButton onClick={() => {
-          if (Bookmark.validationLink(props.bookmark.url) === false) {
-            executeSwal("잘못된 url입니다!", "error");
-            return;
+          try {
+            const data = Bookmark.createYouTubeBookmark(
+              bookmarkData.url,
+              bookmarkData.title.length === 0 ? bookmarkData.url : bookmarkData.title,
+              bookmarkData.description
+            );
+            if (BookmarkStorage.getBookmarkById(data.id) !== null) {
+              executeSwal("이미 해당 ID의 동영상이 저장되어 있습니다!", "error");
+              return;
+            }
+            console.log(data);
+            setBookmarkAction({ type: "ADD", bookmark: data });
+            setVisible(false);
+          } catch (e) {
+            console.log(e);
+            executeSwal("잘못된 URL입니다!", "error");
           }
-
-          props.bookmark.id = Bookmark.getYoutubeLinkId(props.bookmark.url);
-          if (BookmarkStorage.getBookmarkById(props.bookmark.id) !== null) {
-            executeSwal("이미 링크가 저장되어 있습니다!", "error");
-            return;
-          }
-
-          (async () => {
-            try {
-              await BookmarkStorage.updateBookmark(props.bookmark, () => { });
-            }
-            catch (err) {
-              console.error(err.message);
-            }
-            finally {
-              setVisible(false);
-            }
-          })();
-
         }} />
         <CancelButton onClick={() => setVisible(false)} />
       </div>
-
       <div className="add-footer-side" />
     </div>
   );
