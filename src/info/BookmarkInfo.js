@@ -2,28 +2,24 @@ import React, { useContext, useEffect, useState } from "react";
 
 import CrossButton from "button/CrossButton";
 import * as Bookmark from "db/bookmark";
-import Modal from "modal/Modal";
-
-import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
-
-
-import CancelButton from "button/CancelButton";
-import CompleteButton from "button/CompleteButton";
 import { BookmarkStorage } from "db/localStorage";
 import Img from "img/Img";
+import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
 import Description from "info/Description";
 import Iframe from "info/Iframe";
 import TimeLines from "info/TimeLines";
 import ModifiableInput from "input/ModifiableInput";
-
-/**
- * @type {React.Context.<[boolean, React.Dispatch.<React.SetStateAction.<boolean>>]>}
- */
-export const BookmarkInfoModalVisibleContext = React.createContext(null);
+import Modal from "modal/Modal";
 
 /**
  * @typedef {[Bookmark.YouTubeBookmark, React.Dispatch<React.SetStateAction<Bookmark.YouTubeBookmark>>]} BookmarkDispatcher
  */
+
+/**
+ * @type {React.Context.<BookmarkDispatcher>}
+ */
+export const BookmarkInfoModalVisibleContext = React.createContext(null);
+
 
 /**
  * @typedef {object} BookmarkDispatcherProps
@@ -40,9 +36,9 @@ export const BookmarkInfoModalVisibleContext = React.createContext(null);
  * @returns {React.JSX.Element}
  */
 function BookmarkInfo(props) {
-  const [visible] = useContext(BookmarkInfoModalVisibleContext);
+  const [bookmark] = useContext(BookmarkInfoModalVisibleContext);
   return (
-    <Modal visible={visible} style={
+    <Modal visible={bookmark !== null} style={
       {
         minWidth: "var(--info-min-width)",
         minHeight: "var(--info-min-height)",
@@ -52,7 +48,6 @@ function BookmarkInfo(props) {
     }>
       <BookmarkInfoHeader {...props} />
       <BookmarkInfoBody {...props} />
-      {/* <BookmarkInfoFooter {...props} /> */}
     </Modal>
   );
 }
@@ -63,7 +58,7 @@ function BookmarkInfo(props) {
  */
 function BookmarkInfoHeader(props) {
   const { bookmark } = props;
-  const [, setVisible] = useContext(BookmarkInfoModalVisibleContext);
+  const [, setBookmark] = useContext(BookmarkInfoModalVisibleContext);
 
   /**
    * @param {string} text 
@@ -88,7 +83,7 @@ function BookmarkInfoHeader(props) {
           onTextChange={onTextChange} />
       </div>
       <div className="info-header-side">
-        <CrossButton onClick={() => setVisible(false)} />
+        <CrossButton onClick={() => setBookmark(null)} />
       </div>
     </div>
   );
@@ -142,7 +137,7 @@ function BookmarkInfoBody(props) {
             bookmark={bookmark}
             style={{
               marginTop: 12,
-              height: "150px"
+              minHeight: "150px"
             }}
             onTextChange={onTextChange} />
         </div>
@@ -163,27 +158,6 @@ function BookmarkInfoBody(props) {
           }}
           onTimelineSelected={setCurrentTimeline}
         />
-      </div>
-    </div>
-  );
-}
-
-/**
- * @deprecated
- * @param {*} props 
- * @returns 
- */
-function BookmarkInfoFooter(props) {
-  const [, setVisible] = useContext(BookmarkInfoModalVisibleContext);
-  return (
-    <div className="info-footer">
-      <div className="info-footer-side">
-      </div>
-      <div className="info-footer-center">
-      </div>
-      <div className="info-footer-side">
-        <CompleteButton onClick={() => setVisible(false)} />
-        <CancelButton onClick={() => setVisible(false)} />
       </div>
     </div>
   );

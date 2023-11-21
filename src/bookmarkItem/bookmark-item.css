@@ -1,0 +1,85 @@
+.bookmark-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+  /* 북마크 간의 간격 조절 */
+}
+
+.bookmark-item {
+  /* border: 3px solid black; */
+  /* 검은색 선으로 테두리 설정 */
+  width: 360px;
+  border-radius: 18px;
+  /* 각지지 않은 테두리를 위한 radius 설정 */
+  /* padding: 10px; */
+  margin: 8px;
+  position: relative;
+  /* 상대적인 위치 설정 */
+  cursor: pointer
+}
+
+.bookmark-item-container:hover {
+  border-radius: 18px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.bookmark-item-container:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.bookmark-item-title {
+  background-color: rgba(0, 0, 0, 0.05);
+  width: inherit;
+  height: 36px;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &>.bookmark-item-title-text {
+    margin: 12px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+.thumbnail-container {
+  height: 200px;
+
+  &>img {
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    object-fit: cover;
+  }
+}
+
+.delete-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  border-radius: 18px;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(255, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-button:hover {
+  background-color: red;
+}

@@ -41,10 +41,6 @@ function TimeLines(props) {
     setTimelineData(ts => ts.filter((_, i) => i !== index));
   }
 
-
-  console.log("rerender timelines");
-  console.log(timelineData);
-
   return (
     <div
       id="timelines"

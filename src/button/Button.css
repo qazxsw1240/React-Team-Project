@@ -3,14 +3,11 @@
   --button-border-radius: 18px;
 }
 
-
 .cross-button {
   height: var(--button-side-length);
   min-width: var(--button-side-length);
   border-radius: var(--button-border-radius);
   border-style: none;
-
-  
   float: right;
   color: white;
   background-color: red;
@@ -25,8 +22,6 @@
   height: var(--button-side-length);
   min-width: var(--button-side-length);
   border-radius: 10px;
-
-  
   float: right;
   color: white;
   background-color: red;
@@ -42,8 +37,6 @@
   height: var(--button-side-length);
   min-width: var(--button-side-length);
   border-radius: 10px;
-
-  
   float: left;
   color: black;
   background-color: rgba(235, 223, 223, 0.918);

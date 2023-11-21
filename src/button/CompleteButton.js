@@ -5,10 +5,11 @@ import React from "react";
  * @returns {React.JSX.Element}
  */
 function CompleteButton(props) {
+  const { onClick } = props;
   return (
     <div
       className="complete-button"
-      onClick={props.onClick}>
+      onClick={onClick}>
       완료
     </div>
   );

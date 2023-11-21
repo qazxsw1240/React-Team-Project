@@ -5,10 +5,11 @@ import React from "react";
  * @returns {React.JSX.Element}
  */
 function CancelButton(props) {
+  const { onClick } = props;
   return (
     <div
       className="cancel-button"
-      onClick={props.onClick}>
+      onClick={onClick}>
       취소
     </div>
   );

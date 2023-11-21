@@ -5,19 +5,28 @@
   --default-text-size: 16px;
   --title-text-size: 20px;
   --window-border-radius: 12px;
-  
   --component-margin: 12px;
 }
 
-html {
+html,
+body {
   font-family: "Roboto", "Noto Sans KR", sans-serif;
   font-size: var(--default-text-size);
   color: rgb(15, 15, 15);
+  height: 100%;
+  margin: 0;
+}
+
+input,
+textarea {
+  font-family: "Roboto", "Noto Sans KR", sans-serif;
 }
 
 #root {
   min-width: 960px;
   width: 75%;
+  height: 100vh;
+  padding: 0;
   margin: 0 auto;
 }
 
