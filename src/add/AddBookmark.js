@@ -97,11 +97,11 @@ function AddBookmarkBody(props) {
                   style={{
                     height: 36,
                     paddingLeft: "12px",
-                    width: "400px"
+                    width: "420px"
                   }}
                   category="title"
                   text=""
-                  type="input-text"
+                  type="input-text-add"
                   onTextChange={text => setBookmarkData(() => {
                     const clone = { ...bookmarkData };
                     clone.title = text;
@@ -119,11 +119,11 @@ function AddBookmarkBody(props) {
                   style={{
                     height: 36,
                     paddingLeft: "12px",
-                    width: "400px"
+                    width: "420px"
                   }}
                   category="url"
                   text=""
-                  type="input-text"
+                  type="input-text-add"
                   onTextChange={text => setBookmarkData(() => {
                     const clone = { ...bookmarkData };
                     clone.url = text;
@@ -139,9 +139,8 @@ function AddBookmarkBody(props) {
               <td>
                 <ModifiableTextArea
                   style={{
-                    minHeight: "90px",
-                    paddingLeft: "8px",
-                    paddingTop: "8px"
+                    height: 95,
+                    paddingLeft: 6,
                   }}
                   text=""
                   onTextChange={text => setBookmarkData(() => {
@@ -149,6 +148,7 @@ function AddBookmarkBody(props) {
                     clone.description = text;
                     return clone;
                   })}
+                  type="textarea-add"
                 />
               </td>
             </tr>

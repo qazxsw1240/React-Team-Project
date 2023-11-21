@@ -25,3 +25,36 @@
   word-break: break-all;
   overflow-wrap: normal;
 }
+
+.input-text-add {
+  box-sizing: border-box;
+  width: 100%;
+  font-size: var(--default-text-size);
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  word-break: break-all;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.textarea-add {
+  box-sizing: border-box;
+  width: 100%;
+  font-size: var(--default-text-size);
+  font-family: inherit;
+  display: flex;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+.textarea-info {
+  box-sizing: border-box;
+  width: 100%;
+  font-size: var(--default-text-size);
+  font-family: inherit;
+  display: flex;
+  word-break: break-all;
+  overflow: hidden;
+  align-items: center;
+}

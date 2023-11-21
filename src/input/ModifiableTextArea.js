@@ -66,7 +66,7 @@ function ModifiableTextArea(props) {
       onClick={() => setModifiable(() => true)}
       title="클릭해서 편집">
       <div
-        className="input-text"
+        className={props.type}
         style={{
           ...(style ?? {}),
         }}>
