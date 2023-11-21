@@ -5,6 +5,6 @@ export function executeSwal(text, icon) {
     text: text,
     icon: icon,
     confirmButtonText: "확인",
-    confirmButtonColor: "#e06c75"
-  })
+    confirmButtonColor: "#FF0000"
+  });
 }
