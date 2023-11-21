@@ -40,6 +40,11 @@ function Main(props) {
   useEffect(() => {
     // 컴포넌트가 처음 렌더링될 때 모든 북마크를 검색된 북마크로 설정
     setSearchResults(bookmarks);
+    // 현재 페이지가 표시하는 누적 북마크 수가 새로 갱신된 북마크 수보다 크면
+    // 첫 페이지로 이동
+    if ((currentPage - 1) * ItemsPerPage >= bookmarks.length) {
+      setCurrentPage(DefaultCurrentPage);
+    }
   }, [bookmarks]);
 
   useEffect(() => {
