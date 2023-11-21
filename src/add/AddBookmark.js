@@ -1,19 +1,19 @@
 import React, { useContext } from "react";
 
-import Modal from "modal/Modal";
 import CrossButton from "button/CrossButton";
 import * as Bookmark from "db/bookmark";
+import Modal from "modal/Modal";
 
 import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
 
+import CancelButton from "button/CancelButton";
+import CompleteButton from "button/CompleteButton";
 import Img from "img/Img";
 import ModifiableInput from "input/ModifiableInput";
 import ModifiableTextArea from "input/ModifiableTextArea";
-import CancelButton from "button/CancelButton";
-import CompleteButton from "button/CompleteButton";
 
-import { BookmarkStorage } from "db/localStorage";
 import { executeSwal } from "alert/executeSwal";
+import { BookmarkStorage } from "db/localStorage";
 
 /**
  * @type {React.Context.<[boolean, React.Dispatch.<React.SetStateAction.<boolean>>]>}
@@ -28,14 +28,14 @@ function AddBookmark() {
     title: "",
     description: "",
     timelines: []
-  }
+  };
 
   return (
     <Modal visible={visible} style={{
       minWidth: "var(--bookmark-info-min-width)",
       minHeight: "var(--bookmark-info-min-height)",
-      width: "820px",
-      height: "510px"
+      width: 820,
+      height: 510
     }}>
       <AddBookmarkHeader />
       <AddBookmarkBody bookmark={AddBookmarkObject} />
@@ -90,7 +90,6 @@ function AddBookmarkBody(props) {
                   category="title"
                   text=""
                   type="input-text"
-                  size={51}
                 />
               </td>
             </tr>
@@ -109,7 +108,6 @@ function AddBookmarkBody(props) {
                   category="url"
                   text=""
                   type="input-text"
-                  size={51}
                 />
               </td>
             </tr>
@@ -119,15 +117,7 @@ function AddBookmarkBody(props) {
               </th>
               <td>
                 <ModifiableTextArea
-                  style={{
-                    height: "90px",
-                    width: "400px"
-                  }}
-                  attributes={{
-                    cols: 53,
-                    maxLength: 250,
-                    height: "80px"
-                  }}
+                  style={{ minHeight: "90px" }}
                   bookmark={props.bookmark}
                   text=""
                 />
