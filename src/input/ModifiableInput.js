@@ -23,7 +23,6 @@ function ModifiableInput(props) {
   function changeText(event) {
     setText(() => event.target.value);
     setModifiable(() => false);
-    props.bookmark[props.category] = event.target.value;
   }
 
   function checkCategory(category) {
