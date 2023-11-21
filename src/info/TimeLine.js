@@ -27,8 +27,6 @@ function TimeLine(props) {
   const [readOnly, setReadOnly] = useState(true);
   const focusRef = useRef(null);
 
-  // console.log("rerendered", timeline);
-
   useEffect(() => {
     const current = focusRef?.current;
     if (current) {
@@ -71,40 +69,20 @@ function TimeLine(props) {
 
   const inputDefaultValue = formatTimeLine(timeline.timeline);
 
-  // console.log(inputDefaultValue);
-
   return (
     <div
       key="timeline"
       className="timeline">
-      {/* <div
+      <input
+        type="text"
         className="timeline-input"
-        contentEditable={readOnly}>
-        {inputDefaultValue}
-      </div> */}
-      {
-        readOnly ?
-          <input
-            type="text"
-            className="timeline-input"
-            ref={focusRef}
-            readOnly={true}
-            defaultValue={inputDefaultValue}
-            value={inputDefaultValue}
-            onChange={checkInput}
-            onKeyDown={checkKeyEnter}
-          /> :
-          <input
-            type="text"
-            className="timeline-input"
-            ref={focusRef}
-            readOnly={false}
-            defaultValue={inputDefaultValue}
-            // value={inputDefaultValue}
-            onChange={checkInput}
-            onKeyDown={checkKeyEnter}
-          />
-      }
+        ref={focusRef}
+        readOnly={readOnly}
+        value={readOnly ? inputDefaultValue : undefined}
+        defaultValue={inputDefaultValue}
+        onChange={checkInput}
+        onKeyDown={checkKeyEnter}
+      />
       <div
         title={`클릭해서 ${value}(으)로 이동`}
         className="timeline-button timeline-edit-button"
