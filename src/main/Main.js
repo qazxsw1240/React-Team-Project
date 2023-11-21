@@ -1,10 +1,12 @@
 import * as Bookmark from "db/bookmark";
 import Img from "img/Img";
 import React, { useContext, useEffect, useState } from 'react';
+import { IoIosAdd } from "react-icons/io";
 
 import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
 
 import { BookmarkActionContext } from "App";
+import { AddBookmarkModalVisibleContext } from "add/AddBookmark";
 import BookmarkItem from "bookmarkItem/BookmarkItem";
 import { BookmarkInfoModalVisibleContext } from "info/BookmarkInfo";
 import './main.css';
@@ -76,6 +78,7 @@ function Main(props) {
 function MainHeader(props) {
   const { onSearchButtonClick = _ => undefined } = props;
   const [keyword, setKeyword] = useState("");
+  const [, setAddBookmarkVisible] = useContext(AddBookmarkModalVisibleContext);
 
   /**
    * @param {React.KeyboardEvent.<HTMLInputElement>&React.BaseSyntheticEvent.<HTMLInputElement,any,HTMLInputElement>} event 
@@ -92,6 +95,14 @@ function MainHeader(props) {
     <div className="header">
       <div className="logo-header">
         <Img src={LongThumbnail} />
+      </div>
+      <div className="header-bookmark-add-button-field">
+        <button
+          className="header-bookmark-add-button"
+          onClick={() => setAddBookmarkVisible(() => true)}>
+          북마크 추가&nbsp;
+          <IoIosAdd />
+        </button>
       </div>
       <div className="search-bar">
         <input
@@ -128,12 +139,14 @@ function MainBody(props) {
   return (
     <div className="bookmarks-container">
       {
-        bookmarks.map(b => (
-          <BookmarkItem
-            bookmark={b}
-            onBookmarkClick={() => setInfoVisible(() => b)}
-            onBookmarkDeleteClick={() => setBookmarkAction({ type: "DELETE", bookmark: b })} />
-        ))
+        bookmarks.length === 0 ?
+          <></> :
+          bookmarks.map(b => (
+            <BookmarkItem
+              bookmark={b}
+              onBookmarkClick={() => setInfoVisible(() => b)}
+              onBookmarkDeleteClick={() => setBookmarkAction({ type: "DELETE", bookmark: b })} />
+          ))
       }
     </div>
   );
@@ -157,8 +170,7 @@ function PageButtons(props) {
   return (
     <div className="pagination">
       {
-        pages > 1 &&
-        (
+        pages > 1 ?
           <ul>
             {
               Array.from(
@@ -172,8 +184,8 @@ function PageButtons(props) {
                 )
               )
             }
-          </ul>
-        )
+          </ul> :
+          <></>
       }
     </div>
   );
