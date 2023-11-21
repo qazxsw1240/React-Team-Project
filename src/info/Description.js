@@ -27,11 +27,11 @@ function Description(props) {
           bookmark={bookmark}
           text={bookmark.description}
           style={{
-            padding: 12,
+            paddingLeft: 6,
             height: 95
           }}
           onTextChange={onTextChange}
-          type="input-text" />
+          type="textarea-info" />
       </div>
     </div>
   );
