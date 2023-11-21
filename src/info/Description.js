@@ -28,9 +28,10 @@ function Description(props) {
           text={bookmark.description}
           style={{
             padding: 12,
-            minHeight: 95
+            height: 95
           }}
-          onTextChange={onTextChange} />
+          onTextChange={onTextChange}
+          type="input-text" />
       </div>
     </div>
   );
