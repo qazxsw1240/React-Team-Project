@@ -2,19 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 
 import CrossButton from "button/CrossButton";
 import * as Bookmark from "db/bookmark";
-import Modal from "modal/Modal";
-
-import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
-
-
-import CancelButton from "button/CancelButton";
-import CompleteButton from "button/CompleteButton";
 import { BookmarkStorage } from "db/localStorage";
 import Img from "img/Img";
+import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
 import Description from "info/Description";
 import Iframe from "info/Iframe";
 import TimeLines from "info/TimeLines";
 import ModifiableInput from "input/ModifiableInput";
+import Modal from "modal/Modal";
 
 /**
  * @typedef {[Bookmark.YouTubeBookmark, React.Dispatch<React.SetStateAction<Bookmark.YouTubeBookmark>>]} BookmarkDispatcher
@@ -53,7 +48,6 @@ function BookmarkInfo(props) {
     }>
       <BookmarkInfoHeader {...props} />
       <BookmarkInfoBody {...props} />
-      {/* <BookmarkInfoFooter {...props} /> */}
     </Modal>
   );
 }
@@ -164,27 +158,6 @@ function BookmarkInfoBody(props) {
           }}
           onTimelineSelected={setCurrentTimeline}
         />
-      </div>
-    </div>
-  );
-}
-
-/**
- * @deprecated
- * @param {*} props 
- * @returns 
- */
-function BookmarkInfoFooter(props) {
-  const [, setVisible] = useContext(BookmarkInfoModalVisibleContext);
-  return (
-    <div className="info-footer">
-      <div className="info-footer-side">
-      </div>
-      <div className="info-footer-center">
-      </div>
-      <div className="info-footer-side">
-        <CompleteButton onClick={() => setVisible(false)} />
-        <CancelButton onClick={() => setVisible(false)} />
       </div>
     </div>
   );

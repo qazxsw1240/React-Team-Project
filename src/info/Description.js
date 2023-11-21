@@ -19,10 +19,10 @@ function Description(props) {
       style={style}>
       <div className="window-inner"
         style={{ height: "100%" }}>
-        <font
+        <div
           className="window-inner-title">
           동영상 설명
-        </font>
+        </div>
         <ModifiableTextArea
           bookmark={bookmark}
           text={bookmark.description}
@@ -33,7 +33,6 @@ function Description(props) {
           attributes={{
             rows: 5,
             cols: 66,
-            maxLength: 300,
             height: "85px",
             marginTop: "12px"
           }}
