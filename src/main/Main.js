@@ -1,24 +1,21 @@
-import * as Bookmark from "db/bookmark";
-import Img from "img/Img";
 import React, { useContext, useEffect, useState } from 'react';
 import { IoIosAdd } from "react-icons/io";
 
-import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
+
+import * as Bookmark from "db/bookmark";
 
 import { BookmarkActionContext } from "App";
 import { AddBookmarkModalVisibleContext } from "add/AddBookmark";
 import BookmarkItem from "bookmarkItem/BookmarkItem";
+import Img from "img/Img";
 import { BookmarkInfoModalVisibleContext } from "info/BookmarkInfo";
+
+import LongThumbnail from "img/youtube_bookmark_thumbnail.png";
 import './main.css';
 
 const ItemsPerPage = 9;
 const DefaultCurrentPage = 1;
 const DefaultSearchKeyword = "";
-
-const DummyBookmarks = Array.from({ length: 30 }, (_, index) => ({
-  id: index + 1,
-  title: `북마크 제목 ${index + 1}`,
-}));
 
 /**
  * @typedef {object} MainProps
@@ -30,7 +27,7 @@ const DummyBookmarks = Array.from({ length: 30 }, (_, index) => ({
  * @returns {React.JSX.Element}
  */
 function Main(props) {
-  const { bookmarks = DummyBookmarks } = props;
+  const { bookmarks } = props;
   const [currentPage, setCurrentPage] = useState(DefaultCurrentPage);
   const [searchKeyword, setSearchKeyword] = useState(DefaultSearchKeyword);
   const [searchResults, setSearchResults] = useState(bookmarks);
@@ -100,7 +97,7 @@ function MainHeader(props) {
         <button
           className="header-bookmark-add-button"
           onClick={() => setAddBookmarkVisible(() => true)}>
-          북마크 추가&nbsp;
+          북마크 추가
           <IoIosAdd />
         </button>
       </div>
@@ -135,7 +132,6 @@ function MainBody(props) {
   const { bookmarks } = props;
   const [, setInfoVisible] = useContext(BookmarkInfoModalVisibleContext);
   const [, setBookmarkAction] = useContext(BookmarkActionContext);
-  console.log(useContext(BookmarkActionContext));
   return (
     <div className="bookmarks-container">
       {
