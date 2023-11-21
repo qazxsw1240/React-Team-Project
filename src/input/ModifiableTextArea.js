@@ -8,11 +8,11 @@ import { useEffect, useState } from "react";
  */
 
 /**
- * @param {ModifiableTextAreaProps} props 
+ * @param {ModifiableTextAreaProps&React.HTMLAttributes} props 
  * @returns 
  */
 function ModifiableTextArea(props) {
-  const { onTextChange = s => undefined } = props;
+  const { onTextChange = s => undefined, style } = props;
   const [modifiable, setModifiable] = useState(false);
   const [text, setText] = useState(props.text);
 
@@ -20,39 +20,35 @@ function ModifiableTextArea(props) {
     onTextChange(text);
   }, [text]);
 
-  const changeText = (event) => {
+  function changeText(event) {
     setText(() => event.target.value);
     setModifiable(() => false);
+  }
 
-    props.bookmark["description"] = event.target.value;
-  };
-
-  const handleTextareaChange = (event) => {
+  function handleTextareaChange(event) {
     setText(event.target.value);
-  };
+  }
 
-  const checkKeyEnter = (event) => {
+  function checkKeyEnter(event) {
     if (event.key === "Enter") {
       changeText(event);
     }
-  };
+  }
 
   if (modifiable) {
     return (
       <div className="window modifiable"
         style={{
-          height: props.attributes.height,
-          marginTop: props.attributes.marginTop,
-          display: "flex"
+          // display: "flex"
         }}>
         <textarea
+          className="input-text"
           style={{
-            overflowY: "hidden",
-            flexWrap: "wrap"
+            ...(style ?? {}),
+            resize: "none"
           }}
           defaultValue={props.status !== "new" ? text : ""}
-          cols={props.attributes.cols}
-          maxLength={props.attributes.maxLength}
+          maxLength={300}
           onChange={handleTextareaChange}
           placeholder="설명 입력"
           onKeyDown={(event) => checkKeyEnter(event)}
@@ -64,13 +60,15 @@ function ModifiableTextArea(props) {
   }
 
   return (
-    <div className="window modifiable"
+    <div
+      className="window modifiable"
+      style={{ boxSizing: "border-box" }}
       onClick={() => setModifiable(() => true)}
       title="클릭해서 편집">
-      <div className="input-text"
+      <div
+        className="input-text"
         style={{
-          ...props.style,
-          paddingLeft: "12px"
+          ...(style ?? {}),
         }}>
         {text}
       </div>

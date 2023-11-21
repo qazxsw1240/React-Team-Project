@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
 }
-  
+
 .input-title-text {
   width: inherit;
   font-size: var(--title-text-size);
@@ -14,13 +14,14 @@
   overflow: hidden;
   white-space: nowrap;
 }
-  
+
 .input-text {
-  width: inherit;
+  box-sizing: border-box;
+  width: 100%;
   font-size: var(--default-text-size);
   font-family: inherit;
   display: flex;
   align-items: center;
-  overflow: hidden;
-  white-space: nowrap;
+  word-break: break-all;
+  overflow-wrap: normal;
 }
