@@ -96,7 +96,7 @@ function AddBookmarkBody(props) {
                 <ModifiableInput
                   style={{
                     height: 36,
-                    paddingLeft: "13px",
+                    paddingLeft: "12px",
                     width: "400px"
                   }}
                   category="title"
@@ -138,7 +138,11 @@ function AddBookmarkBody(props) {
               </th>
               <td>
                 <ModifiableTextArea
-                  style={{ minHeight: "90px" }}
+                  style={{
+                    minHeight: "90px",
+                    paddingLeft: "8px",
+                    paddingTop: "8px"
+                  }}
                   text=""
                   onTextChange={text => setBookmarkData(() => {
                     const clone = { ...bookmarkData };

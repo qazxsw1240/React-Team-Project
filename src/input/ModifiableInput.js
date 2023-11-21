@@ -23,7 +23,6 @@ function ModifiableInput(props) {
   function changeText(event) {
     setText(() => event.target.value);
     setModifiable(() => false);
-    props.bookmark[props.category] = event.target.value;
   }
 
   function checkCategory(category) {
@@ -44,7 +43,9 @@ function ModifiableInput(props) {
         <input
           className={props.type}
           style={{
-            // flexWrap: "wrap"
+            height: 30,
+            paddingLeft: "10px",
+            flexWrap: "wrap"
           }}
           type="text"
           defaultValue={text}
