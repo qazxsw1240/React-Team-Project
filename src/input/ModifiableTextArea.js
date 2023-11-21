@@ -47,7 +47,7 @@ function ModifiableTextArea(props) {
             ...(style ?? {}),
             resize: "none"
           }}
-          defaultValue={props.status !== "new" ? text : ""}
+          defaultValue={text}
           maxLength={300}
           onChange={handleTextareaChange}
           placeholder="설명 입력"
