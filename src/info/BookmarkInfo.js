@@ -137,7 +137,7 @@ function BookmarkInfoBody(props) {
             bookmark={bookmark}
             style={{
               marginTop: 12,
-              height: "150px"
+              minHeight: "150px"
             }}
             onTextChange={onTextChange} />
         </div>
