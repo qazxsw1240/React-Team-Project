@@ -25,10 +25,6 @@ function App() {
 
   useEffect(() => {
     BookmarkStorage.initializeData();
-    BookmarkStorage.updateBookmark("https://youtu.be/5bId3N7QZec", () => { });
-    BookmarkStorage.updateBookmark("https://youtu.be/baRaISC9x6c", () => { });
-    BookmarkStorage.updateBookmark("https://youtu.be/65EjJ7WyiOI", () => { });
-    BookmarkStorage.updateBookmark("https://youtu.be/-Hs1bm-iAYE", () => { });
     setBookmarkAction({ type: "LOAD" });
   }, []);
 
