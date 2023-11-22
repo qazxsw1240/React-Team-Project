@@ -1,6 +1,0 @@
-function importAll(r) {
-  r.keys().forEach(r);
-}
-
-// src 폴더 내의 모든 css 파일을 import
-importAll(require.context('./', true, /\.css$/));
